@@ -3,9 +3,8 @@
 version: '3.9'
 services:
   mysql:
-    image: mysql:8.0.32
+    image: mysql
     container_name: mysql
-    command: --default-authentication-plugin=mysql_native_password
     restart: always
     environment:
       TZ: Asia/Shanghai
@@ -14,18 +13,19 @@ services:
       - "13306:3306"
     volumes:
       - ./mysql/sql:/docker-entrypoint-initdb.d
+      - ./mysql/data:/var/lib/mysql
     healthcheck:
-      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost", "-p123456" ]
       interval: 5s
       timeout: 10s
       retries: 10
       start_period: 15s
     networks:
-      - my-network
+      - network_jay
 
   # phpmyadmin https://hub.docker.com/_/phpmyadmin
   phpmyadmin:
-    image: phpmyadmin:5.2.1
+    image: phpmyadmin
     container_name: phpmyadmin
     hostname: phpmyadmin
     ports:
@@ -38,11 +38,11 @@ services:
       mysql:
         condition: service_healthy
     networks:
-      - my-network
+      - network_jay
 
   # Redis
   redis:
-    image: redis:6.2
+    image: redis
     container_name: redis
     restart: always
     hostname: redis
@@ -53,7 +53,7 @@ services:
       - ./redis/redis.conf:/usr/local/etc/redis/redis.conf
     command: redis-server /usr/local/etc/redis/redis.conf
     networks:
-      - my-network
+      - network_jay
     healthcheck:
       test: [ "CMD", "redis-cli", "ping" ]
       interval: 10s
@@ -76,11 +76,11 @@ services:
       - LANGUAGE=C.UTF-8
       - LC_ALL=C.UTF-8
     networks:
-      - my-network
+      - network_jay
     depends_on:
       redis:
         condition: service_healthy
 
 networks:
-  my-network:
+  network_jay:
     driver: bridge
