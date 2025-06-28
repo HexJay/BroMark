@@ -1,10 +1,10 @@
 # 命令执行 docker-compose -f docker-compose-environment-aliyun.yml up -d
 # docker 代理和使用文档；https://bugstack.cn/md/road-map/docker.html
-version: '3.9'
+version: "3.9"
 services:
   mysql:
     image: mysql
-    container_name: mysql
+    container_name: mysql-j
     restart: always
     environment:
       TZ: Asia/Shanghai
@@ -26,7 +26,7 @@ services:
   # phpmyadmin https://hub.docker.com/_/phpmyadmin
   phpmyadmin:
     image: phpmyadmin
-    container_name: phpmyadmin
+    container_name: phpmyadmin-j
     hostname: phpmyadmin
     ports:
       - 8899:80
@@ -43,14 +43,14 @@ services:
   # Redis
   redis:
     image: redis
-    container_name: redis
+    container_name: redis-j
     restart: always
     hostname: redis
     privileged: true
     ports:
       - 16379:6379
     volumes:
-      - ./redis/redis.conf:/usr/local/etc/redis/redis.conf
+      - ./redis:/usr/local/etc/redis
     command: redis-server /usr/local/etc/redis/redis.conf
     networks:
       - network_jay
@@ -63,7 +63,7 @@ services:
   # RedisAdmin https://github.com/joeferner/redis-commander
   redis-admin:
     image: spryker/redis-commander:0.8.0
-    container_name: redis-admin
+    container_name: redis-admin-j
     hostname: redis-commander
     restart: always
     ports:
