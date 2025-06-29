@@ -23,7 +23,7 @@ public class StrategyRepositoryTest {
 
     @Test
     public void assembleLotteryStrategyTest(){
-        repository.queryStrategyAwardList(100002L);
+        repository.queryStrategyAwardList(100001L);
     }
 
 }

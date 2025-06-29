@@ -7,7 +7,12 @@ package com.jay.domain.strategy.service.armory;
  */
 public interface IStrategyArmory {
 
-    void assembleLotteryStrategy(Long strategyId);
+    /**
+     * 装配抽奖策略配置 （触发的时机可以为活动审核通过后进行调用）
+     *
+     * @param strategyId
+     * @return
+     */
+    Boolean assembleLotteryStrategy(Long strategyId);
 
-    Integer getRandomAwardId(Long strategyId);
 }
