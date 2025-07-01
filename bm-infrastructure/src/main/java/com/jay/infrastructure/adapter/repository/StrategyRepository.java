@@ -15,7 +15,6 @@ import com.jay.infrastructure.dao.po.StrategyRule;
 import com.jay.infrastructure.redis.IRedisService;
 import com.jay.types.common.Constants;
 import org.redisson.api.RMap;
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.Resource;
@@ -121,5 +120,14 @@ public class StrategyRepository implements IStrategyRepository {
 
         StrategyRule strategyRule = strategyRuleDao.queryStrategyRule(query);
         return BeanUtil.copyProperties(strategyRule, StrategyRuleEntity.class);
+    }
+
+    @Override
+    public String queryStrategyRuleValue(Long strategyId, Integer awardId, String ruleModel) {
+        StrategyRule query = new StrategyRule();
+        query.setStrategyId(strategyId);
+        query.setAwardId(awardId);
+        query.setRuleModel(ruleModel);
+        return strategyRuleDao.queryStrategyRuleValue(query);
     }
 }

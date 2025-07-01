@@ -11,11 +11,6 @@
         <result column="update_time" property="updateTime"/>
     </resultMap>
 
-    <select id="queryStrategyList" resultMap="dataMap">
-        select *
-        from strategy
-    </select>
-
     <select id="queryStrategyByStrategyId" parameterType="java.lang.Long" resultMap="dataMap">
         select strategy_id, strategy_desc, rule_models
         from strategy

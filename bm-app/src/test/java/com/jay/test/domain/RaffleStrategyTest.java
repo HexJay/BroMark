@@ -1,0 +1,65 @@
+package com.jay.test.domain;
+
+import com.alibaba.fastjson2.JSON;
+import com.jay.domain.strategy.model.entity.RaffleAwardEntity;
+import com.jay.domain.strategy.model.entity.RaffleFactorEntity;
+import com.jay.domain.strategy.service.IRaffleStrategy;
+import com.jay.domain.strategy.service.rule.impl.RuleWeightLogicFilter;
+import lombok.extern.slf4j.Slf4j;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.util.ReflectionTestUtils;
+
+import javax.annotation.Resource;
+
+/**
+ * @author Jay
+ * @date 2025/7/1 14:49
+ * @description
+ */
+@Slf4j
+@RunWith(SpringRunner.class)
+@SpringBootTest
+public class RaffleStrategyTest {
+
+    @Resource
+    private IRaffleStrategy raffleStrategy;
+
+    @Resource
+    private RuleWeightLogicFilter ruleWeightLogicFilter;
+
+    @Before
+    public void before() {
+        ReflectionTestUtils.setField(ruleWeightLogicFilter, "userScore", 4500L);
+    }
+
+    @Test
+    public void performRaffle() {
+        RaffleFactorEntity factorEntity = RaffleFactorEntity.builder()
+                .strategyId(100001L)
+                .userId("Jay")
+                .build();
+
+        RaffleAwardEntity raffleAwardEntity = raffleStrategy.performRaffle(factorEntity);
+
+        log.info("请求参数：{}", JSON.toJSONString(factorEntity));
+        log.info("测试结果：{}", JSON.toJSONString(raffleAwardEntity));
+    }
+
+    @Test
+    public void performRaffle_blackList() {
+        RaffleFactorEntity factorEntity = RaffleFactorEntity.builder()
+                .strategyId(100001L)
+                .userId("user001")
+                .build();
+
+        RaffleAwardEntity raffleAwardEntity = raffleStrategy.performRaffle(factorEntity);
+
+        log.info("请求参数：{}", JSON.toJSONString(factorEntity));
+        log.info("测试结果：{}", JSON.toJSONString(raffleAwardEntity));
+    }
+
+}
