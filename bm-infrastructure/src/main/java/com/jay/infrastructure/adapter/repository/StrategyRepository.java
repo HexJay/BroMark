@@ -5,6 +5,7 @@ import com.alibaba.fastjson2.JSON;
 import com.jay.domain.strategy.model.entity.StrategyAwardEntity;
 import com.jay.domain.strategy.model.entity.StrategyEntity;
 import com.jay.domain.strategy.model.entity.StrategyRuleEntity;
+import com.jay.domain.strategy.model.vo.StrategyAwardRuleModelVO;
 import com.jay.domain.strategy.repository.IStrategyRepository;
 import com.jay.infrastructure.dao.IStrategyAwardDao;
 import com.jay.infrastructure.dao.IStrategyDao;
@@ -129,5 +130,14 @@ public class StrategyRepository implements IStrategyRepository {
         query.setAwardId(awardId);
         query.setRuleModel(ruleModel);
         return strategyRuleDao.queryStrategyRuleValue(query);
+    }
+
+    @Override
+    public StrategyAwardRuleModelVO queryStrategyAwardRuleModel(Long strategyId, Integer awardId) {
+        StrategyAward query = new StrategyAward();
+        query.setStrategyId(strategyId);
+        query.setAwardId(awardId);
+        String ruleModels = strategyAwardDao.queryStrategyAwardRuleModels(query);
+        return StrategyAwardRuleModelVO.builder().ruleModels(ruleModels).build();
     }
 }

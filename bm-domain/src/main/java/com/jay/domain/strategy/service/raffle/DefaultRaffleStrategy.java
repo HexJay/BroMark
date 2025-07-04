@@ -8,7 +8,6 @@ import com.jay.domain.strategy.repository.IStrategyRepository;
 import com.jay.domain.strategy.service.armory.IStrategyDispatch;
 import com.jay.domain.strategy.service.rule.ILogicFilter;
 import com.jay.domain.strategy.service.rule.factory.DefaultLogicFactory;
-import com.jay.domain.strategy.service.rule.impl.RuleBlackListLogicFilter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
@@ -37,6 +36,13 @@ public class DefaultRaffleStrategy extends AbstractRaffleStrategy {
 
     @Override
     protected RuleActionEntity<RuleActionEntity.RaffleBefore> doCheckRaffleBeforeLogic(RaffleFactorEntity raffleFactorEntity, String... logics) {
+
+        if (logics == null || logics.length == 0){
+            return RuleActionEntity.<RuleActionEntity.RaffleBefore>builder()
+                    .code(RuleLogicCheckTypeVO.ALLOW.getCode())
+                    .info(RuleLogicCheckTypeVO.ALLOW.getInfo())
+                    .build();
+        }
 
         Map<String, ILogicFilter<RuleActionEntity.RaffleBefore>> logicFilterGroup = logicFactory.openLogicFilter();
 
@@ -69,14 +75,47 @@ public class DefaultRaffleStrategy extends AbstractRaffleStrategy {
         RuleActionEntity<RuleActionEntity.RaffleBefore> ruleActionEntity = null;
         for (String ruleModel : ruleList) {
             ILogicFilter<RuleActionEntity.RaffleBefore> logicFilter = logicFilterGroup.get(ruleModel);
+
+            RuleMatterEntity ruleMatterEntity = RuleMatterEntity.builder()
+                    .userId(raffleFactorEntity.getUserId())
+                    .strategyId(raffleFactorEntity.getStrategyId())
+                    .awardId(raffleFactorEntity.getAwardId())
+                    .ruleModel(ruleModel)
+                    .build();
+
+            ruleActionEntity = logicFilter.filter(ruleMatterEntity);
+            // 非放行结果则顺序过滤
+            log.info("抽奖前规则过滤 userId: {} ruleModel: {} code: {} info: {}", raffleFactorEntity.getUserId(), ruleModel, ruleActionEntity.getCode(), ruleActionEntity.getInfo());
+            if (!RuleLogicCheckTypeVO.ALLOW.getCode().equals(ruleActionEntity.getCode()))
+                return ruleActionEntity;
+        }
+
+        return ruleActionEntity;
+    }
+
+    @Override
+    protected RuleActionEntity<RuleActionEntity.RaffleDuring> doCheckRaffleDuringLogic(RaffleFactorEntity raffleFactorEntity, String... logics) {
+
+        if (logics == null || logics.length == 0){
+            return RuleActionEntity.<RuleActionEntity.RaffleDuring>builder()
+                    .code(RuleLogicCheckTypeVO.ALLOW.getCode())
+                    .info(RuleLogicCheckTypeVO.ALLOW.getInfo())
+                    .build();
+        }
+
+        Map<String, ILogicFilter<RuleActionEntity.RaffleDuring>> logicFilterGroup = logicFactory.openLogicFilter();
+
+        RuleActionEntity<RuleActionEntity.RaffleDuring> ruleActionEntity = null;
+        for (String ruleModel : logics) {
+            ILogicFilter<RuleActionEntity.RaffleDuring> logicFilter = logicFilterGroup.get(ruleModel);
             RuleMatterEntity ruleMatterEntity = new RuleMatterEntity();
             ruleMatterEntity.setUserId(raffleFactorEntity.getUserId());
-            ruleMatterEntity.setAwardId(ruleMatterEntity.getAwardId());
+            ruleMatterEntity.setAwardId(raffleFactorEntity.getAwardId());
             ruleMatterEntity.setStrategyId(raffleFactorEntity.getStrategyId());
             ruleMatterEntity.setRuleModel(ruleModel);
             ruleActionEntity = logicFilter.filter(ruleMatterEntity);
             // 非放行结果则顺序过滤
-            log.info("抽奖前规则过滤 userId: {} ruleModel: {} code: {} info: {}", raffleFactorEntity.getUserId(), ruleModel, ruleActionEntity.getCode(), ruleActionEntity.getInfo());
+            log.info("抽奖中规则过滤 userId: {} ruleModel: {} code: {} info: {}", raffleFactorEntity.getUserId(), ruleModel, ruleActionEntity.getCode(), ruleActionEntity.getInfo());
             if (!RuleLogicCheckTypeVO.ALLOW.getCode().equals(ruleActionEntity.getCode()))
                 return ruleActionEntity;
         }

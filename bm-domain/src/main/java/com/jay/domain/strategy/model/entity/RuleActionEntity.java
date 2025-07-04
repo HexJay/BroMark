@@ -48,7 +48,7 @@ public class RuleActionEntity<T extends RuleActionEntity.RaffleEntity> {
     }
 
     // 抽奖前动作
-    static public class RaffleCenter extends RaffleEntity {
+    static public class RaffleDuring extends RaffleEntity {
 
     }
 
