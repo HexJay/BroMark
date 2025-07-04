@@ -40,9 +40,9 @@ public class StrategyArmoryDispatchTest {
 
     @Test
     public void test_getRandomAwardIdWithRuleWeight() {
-        log.info("4000 策略 - 奖品ID值：{}", strategyDispatch.getRandomAwardId(100001L, "4000"));
-        log.info("5000 策略 - 奖品ID值：{}", strategyDispatch.getRandomAwardId(100001L, "5000"));
-        log.info("6000 策略 - 奖品ID值：{}", strategyDispatch.getRandomAwardId(100001L, "6000"));
+        log.info("4000 策略 - 奖品ID值：{}", strategyDispatch.getRandomAwardId(100001L, 4000L));
+        log.info("5000 策略 - 奖品ID值：{}", strategyDispatch.getRandomAwardId(100001L, 5000L));
+        log.info("6000 策略 - 奖品ID值：{}", strategyDispatch.getRandomAwardId(100001L, 6000L));
 
     }
 }

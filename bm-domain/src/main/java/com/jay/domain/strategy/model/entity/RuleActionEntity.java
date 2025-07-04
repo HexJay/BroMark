@@ -44,7 +44,7 @@ public class RuleActionEntity<T extends RuleActionEntity.RaffleEntity> {
         /**
          * 权重值key，用于抽奖时可以选择权重抽奖
          */
-        private String ruleWeightKey;
+        private Long ruleWeightKey;
     }
 
     // 抽奖前动作

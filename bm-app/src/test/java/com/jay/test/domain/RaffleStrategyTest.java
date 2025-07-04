@@ -5,8 +5,8 @@ import com.jay.domain.strategy.model.entity.RaffleAwardEntity;
 import com.jay.domain.strategy.model.entity.RaffleFactorEntity;
 import com.jay.domain.strategy.service.IRaffleStrategy;
 import com.jay.domain.strategy.service.armory.IStrategyArmory;
-import com.jay.domain.strategy.service.rule.impl.RuleLockLogicFilter;
-import com.jay.domain.strategy.service.rule.impl.RuleWeightLogicFilter;
+import com.jay.domain.strategy.service.rule.chain.impl.RuleWeightLogicChain;
+import com.jay.domain.strategy.service.rule.filter.impl.RuleLockLogicFilter;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.Test;
@@ -31,7 +31,7 @@ public class RaffleStrategyTest {
     private IRaffleStrategy raffleStrategy;
 
     @Resource
-    private RuleWeightLogicFilter ruleWeightLogicFilter;
+    private RuleWeightLogicChain ruleWeightLogicChain;
 
     @Resource
     private IStrategyArmory strategyArmory;
@@ -44,7 +44,7 @@ public class RaffleStrategyTest {
         log.info("装配100001结果：{}",strategyArmory.assembleLotteryStrategy(100001L));
         log.info("装配100002结果：{}",strategyArmory.assembleLotteryStrategy(100002L));
         log.info("装配100003结果：{}",strategyArmory.assembleLotteryStrategy(100003L));
-        ReflectionTestUtils.setField(ruleWeightLogicFilter, "userScore", 4500L);
+        ReflectionTestUtils.setField(ruleWeightLogicChain, "userScore", 4500L);
         ReflectionTestUtils.setField(ruleLockLogicFilter, "userRaffleCount", 10L);
     }
 

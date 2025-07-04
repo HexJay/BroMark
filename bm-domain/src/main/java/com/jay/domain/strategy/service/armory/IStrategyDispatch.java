@@ -14,5 +14,5 @@ public interface IStrategyDispatch {
      */
     Integer getRandomAwardId(Long strategyId);
 
-    Integer getRandomAwardId(Long strategyId, String ruleWeightKey);
+    Integer getRandomAwardId(Long strategyId, Long ruleWeightKey);
 }

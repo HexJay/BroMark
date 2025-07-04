@@ -1,4 +1,4 @@
-package com.jay.domain.strategy.service.rule;
+package com.jay.domain.strategy.service.rule.filter;
 
 import com.jay.domain.strategy.model.entity.RuleActionEntity;
 import com.jay.domain.strategy.model.entity.RuleMatterEntity;
