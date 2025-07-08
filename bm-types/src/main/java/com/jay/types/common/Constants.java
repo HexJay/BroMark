@@ -11,5 +11,6 @@ public class Constants {
         public static final String STRATEGY_AWARD_KEY = "bm:strategy:award:key:";
         public static final String STRATEGY_RATE_TABLE_KEY = "bm:strategy:rate:table:key:";
         public static final String STRATEGY_RATE_RANGE_KEY = "bm:strategy:rate:range:key:";
+        public static final String RULE_TREE_VO_KEY = "bm:rule:tree:vo:key:";
     }
 }

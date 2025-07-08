@@ -1,5 +1,7 @@
 package com.jay.test.infrastructure;
 
+import com.alibaba.fastjson2.JSON;
+import com.jay.domain.strategy.model.vo.tree.RuleTreeVO;
 import com.jay.domain.strategy.repository.IStrategyRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
@@ -12,7 +14,7 @@ import javax.annotation.Resource;
 /**
  * @author Jay
  * @date 2025/6/27 22:58
- * @description
+ * @description 仓储测试
  */
 @Slf4j
 @RunWith(SpringRunner.class)
@@ -26,4 +28,9 @@ public class StrategyRepositoryTest {
         repository.queryStrategyAwardList(100001L);
     }
 
+    @Test
+    public void queryRuleTreeTest(){
+        RuleTreeVO ruleTreeVO = repository.queryRuleTreeVOByTreeId("tree_lock");
+        log.info(JSON.toJSONString(ruleTreeVO));
+    }
 }

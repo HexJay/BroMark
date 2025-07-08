@@ -19,7 +19,7 @@ import java.util.List;
 public class RuleTreeNodeVO {
 
     /** 规则树ID */
-    private Integer treeId;
+    private String treeId;
     /** 规则key，是树节点的key，比如幸运奖为rule_luck_award，由数据库配置*/
     private String ruleKey;
     /** 规则描述 */

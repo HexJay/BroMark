@@ -5,10 +5,7 @@ import com.jay.domain.strategy.model.vo.tree.RuleTreeVO;
 import com.jay.domain.strategy.service.rule.tree.ILogicTreeNode;
 import com.jay.domain.strategy.service.rule.tree.factory.engine.IDecisionTreeEngine;
 import com.jay.domain.strategy.service.rule.tree.factory.engine.impl.DecisionTreeEngine;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
@@ -37,14 +34,14 @@ public class DefaultTreeFactory {
     @NoArgsConstructor
     public static class TreeActionEntity {
         private RuleLogicCheckTypeVO ruleLogicCheckType;
-        private StrategyAwardData strategyAwardData;
+        private StrategyAwardVO strategyAwardVO;
     }
 
     @Data
     @Builder
     @AllArgsConstructor
     @NoArgsConstructor
-    public static class StrategyAwardData {
+    public static class StrategyAwardVO {
         /**
          * 奖品ID
          */
@@ -53,5 +50,18 @@ public class DefaultTreeFactory {
          * 奖品规则
          */
         private String awardRuleValue;
+    }
+
+    @Getter
+    @AllArgsConstructor
+    public enum LogicModel {
+
+        RULE_LOCK("rule_lock","奖品锁定"),
+        RULE_LUCK_AWARD("rule_luck_award","幸运奖"),
+        RULE_STOCK("rule_stock","库存处理")
+        ;
+
+        private final String code;
+        private final String info;
     }
 }

@@ -4,6 +4,7 @@ import com.jay.domain.strategy.model.entity.StrategyAwardEntity;
 import com.jay.domain.strategy.model.entity.StrategyEntity;
 import com.jay.domain.strategy.model.entity.StrategyRuleEntity;
 import com.jay.domain.strategy.model.vo.StrategyAwardRuleModelVO;
+import com.jay.domain.strategy.model.vo.tree.RuleTreeVO;
 
 import java.util.HashMap;
 import java.util.List;
@@ -33,5 +34,8 @@ public interface IStrategyRepository {
 
     String queryStrategyRuleValue(Long strategyId, String ruleModel);
 
-    StrategyAwardRuleModelVO queryStrategyAwardRuleModel(Long strategyId, Integer awardId);
+    StrategyAwardRuleModelVO queryStrategyAwardRuleModelVO(Long strategyId, Integer awardId);
+
+    RuleTreeVO queryRuleTreeVOByTreeId(String treeId);
+
 }

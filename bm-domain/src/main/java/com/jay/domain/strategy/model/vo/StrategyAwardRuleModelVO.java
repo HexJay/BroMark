@@ -1,13 +1,9 @@
 package com.jay.domain.strategy.model.vo;
 
-import com.jay.domain.strategy.service.rule.filter.factory.DefaultLogicFactory;
-import com.jay.types.common.Constants;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.util.ArrayList;
 
 /**
  * @author Jay
@@ -21,15 +17,4 @@ import java.util.ArrayList;
 public class StrategyAwardRuleModelVO {
 
     private String ruleModels;
-
-    public String[] raffleDuringRuleModelList(){
-        ArrayList<String> ruleModelList = new ArrayList<>();
-        String[] ruleModelValues = ruleModels.split(Constants.SPLIT);
-        for (String ruleModelValue : ruleModelValues) {
-            if (DefaultLogicFactory.LogicModel.isDuring(ruleModelValue)) {
-                ruleModelList.add(ruleModelValue);
-            }
-        }
-        return ruleModelList.toArray(new String[0]);
-    }
 }
