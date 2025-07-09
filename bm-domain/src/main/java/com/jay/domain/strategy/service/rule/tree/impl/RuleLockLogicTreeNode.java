@@ -24,19 +24,18 @@ public class RuleLockLogicTreeNode implements ILogicTreeNode {
     private Long userCount = 10L;
 
     @Override
-    public DefaultTreeFactory.TreeActionEntity logic(String userId, Long strategyId, Integer awardId) {
-        log.info("规则树 - 解锁判别 userId:{}, strategyId:{}, awardId:{}", userId, strategyId, awardId);
+    public DefaultTreeFactory.TreeActionEntity logic(String userId, Long strategyId, Integer awardId, String ruleValue) {
+        log.info("规则过滤 - 解锁判别 userId:{}, strategyId:{}, awardId:{}", userId, strategyId, awardId);
 
-        String ruleValue = repository.queryStrategyRuleValue(strategyId, awardId,
-                DefaultTreeFactory.LogicModel.RULE_LOCK.getCode());
+        long raffleCount = 0L;
 
-        if (ruleValue == null || ruleValue.isEmpty()) {
-            throw new RuntimeException("awardId未配置规则");
+        try {
+            raffleCount = Long.parseLong(ruleValue);
+        } catch (NumberFormatException e) {
+            throw new RuntimeException("规则过滤 - 解锁判别异常 ruleValue:" + ruleValue + "配置不正确");
         }
 
-        Long requireCount = Long.valueOf(ruleValue);
-
-        if (requireCount > userCount) {
+        if (raffleCount > userCount) {
             return DefaultTreeFactory.TreeActionEntity.builder()
                     .ruleLogicCheckType(RuleLogicCheckTypeVO.TAKE_OVER)
                     .build();

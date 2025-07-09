@@ -7,6 +7,7 @@ import com.jay.domain.strategy.model.entity.StrategyEntity;
 import com.jay.domain.strategy.model.entity.StrategyRuleEntity;
 import com.jay.domain.strategy.model.vo.RuleLogicCheckTypeVO;
 import com.jay.domain.strategy.model.vo.StrategyAwardRuleModelVO;
+import com.jay.domain.strategy.model.vo.StrategyAwardStockKeyVO;
 import com.jay.domain.strategy.model.vo.tree.RuleLimitTypeVO;
 import com.jay.domain.strategy.model.vo.tree.RuleTreeNodeLineVO;
 import com.jay.domain.strategy.model.vo.tree.RuleTreeNodeVO;
@@ -16,6 +17,9 @@ import com.jay.infrastructure.dao.*;
 import com.jay.infrastructure.dao.po.*;
 import com.jay.infrastructure.redis.IRedisService;
 import com.jay.types.common.Constants;
+import lombok.extern.slf4j.Slf4j;
+import org.redisson.api.RBlockingQueue;
+import org.redisson.api.RDelayedQueue;
 import org.redisson.api.RMap;
 import org.springframework.stereotype.Repository;
 
@@ -24,6 +28,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 /**
@@ -31,6 +36,7 @@ import java.util.stream.Collectors;
  * @date 2025/6/27 19:57
  * @description 策略仓储实现
  */
+@Slf4j
 @Repository
 public class StrategyRepository implements IStrategyRepository {
 
@@ -155,7 +161,7 @@ public class StrategyRepository implements IStrategyRepository {
     @Override
     public RuleTreeVO queryRuleTreeVOByTreeId(String treeId) {
 
-        //查询缓存
+        // 查询缓存
         String cacheKey = Constants.RedisKey.RULE_TREE_VO_KEY + treeId;
         String json = redisService.getValue(cacheKey);
         if (json != null && !json.isEmpty()) {
@@ -195,7 +201,7 @@ public class StrategyRepository implements IStrategyRepository {
             treeNodeMap.put(treeNodeVO.getRuleKey(), treeNodeVO);
         }
 
-        //3.构建 Rule Tree
+        // 3.构建 Rule Tree
         RuleTreeVO ruleTreeVO = RuleTreeVO.builder()
                 .treeId(ruleTree.getTreeId())
                 .treeName(ruleTree.getTreeName())
@@ -204,8 +210,55 @@ public class StrategyRepository implements IStrategyRepository {
                 .treeNodeMap(treeNodeMap)
                 .build();
 
-        //缓存
+        // 缓存
         redisService.setValue(Constants.RedisKey.RULE_TREE_VO_KEY + treeId, JSON.toJSONString(ruleTreeVO));
         return ruleTreeVO;
+    }
+
+    @Override
+    public void cacheStrategyAwardCount(String cacheKey, Integer awardCount) {
+        // 避免重复缓存
+        if (redisService.getValue(cacheKey) != null) {
+            return;
+        }
+        redisService.setAtomicLong(cacheKey, awardCount);
+    }
+
+    @Override
+    public Boolean subtractionAwardStock(String cacheKey) {
+        long surplus = redisService.decr(cacheKey);
+        if (surplus < 0) {
+            redisService.setValue(cacheKey, 0L);
+            return false;
+        }
+        String lockKey = cacheKey + Constants.COLON + surplus;
+        Boolean isLocked = redisService.setNx(lockKey);
+        if (!isLocked) {
+            log.warn("奖品库存加锁失败{}", lockKey);
+        }
+        return isLocked;
+    }
+
+    @Override
+    public void awardStockConsumeSendQueue(StrategyAwardStockKeyVO stockKeyVO) {
+        String cacheKey = Constants.RedisKey.STRATEGY_AWARD_COUNT_QUEUE_KEY;
+        RBlockingQueue<StrategyAwardStockKeyVO> blockingQueue = redisService.getBlockingQueue(cacheKey);
+        RDelayedQueue<StrategyAwardStockKeyVO> delayedQueue = redisService.getDelayedQueue(blockingQueue);
+        delayedQueue.offer(stockKeyVO, 3, TimeUnit.SECONDS);
+    }
+
+    @Override
+    public StrategyAwardStockKeyVO takeQueueValue() {
+        String cacheKey = Constants.RedisKey.STRATEGY_AWARD_COUNT_QUEUE_KEY;
+        RBlockingQueue<StrategyAwardStockKeyVO> blockingQueue = redisService.getBlockingQueue(cacheKey);
+        return blockingQueue.poll();
+    }
+
+    @Override
+    public void updateStrategyAwardStock(Long strategyId, Integer awardId) {
+        StrategyAward strategyAward = new StrategyAward();
+        strategyAward.setStrategyId(strategyId);
+        strategyAward.setAwardId(awardId);
+        strategyAwardDao.updateStrategyAwardStock(strategyAward);
     }
 }

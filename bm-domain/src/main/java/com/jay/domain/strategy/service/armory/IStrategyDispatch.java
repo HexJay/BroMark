@@ -1,5 +1,7 @@
 package com.jay.domain.strategy.service.armory;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
+
 /**
  * @author Jay
  * @date 2025/6/29 14:50
@@ -15,4 +17,12 @@ public interface IStrategyDispatch {
     Integer getRandomAwardId(Long strategyId);
 
     Integer getRandomAwardId(Long strategyId, Long ruleWeightKey);
+
+    /**
+     * 根据策略ID和奖品ID，扣减奖品库存
+     * @param strategyId
+     * @param awardId
+     * @return
+     */
+    Boolean subtractionAwardStock(Long strategyId, Integer awardId);
 }

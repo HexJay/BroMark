@@ -1,6 +1,7 @@
 package com.jay.domain.strategy.service.raffle;
 
 import com.jay.domain.strategy.model.vo.StrategyAwardRuleModelVO;
+import com.jay.domain.strategy.model.vo.StrategyAwardStockKeyVO;
 import com.jay.domain.strategy.model.vo.tree.RuleTreeVO;
 import com.jay.domain.strategy.repository.IStrategyRepository;
 import com.jay.domain.strategy.service.AbstractRaffleStrategy;
@@ -43,5 +44,15 @@ public class DefaultRaffleStrategy extends AbstractRaffleStrategy {
         }
         IDecisionTreeEngine treeEngine = treeFactory.openLogicTree(ruleTreeVO);
         return treeEngine.process(userId, strategyId, awardId);
+    }
+
+    @Override
+    public StrategyAwardStockKeyVO takeQueueValue() throws InterruptedException {
+        return repository.takeQueueValue();
+    }
+
+    @Override
+    public void updateStrategyAwardStock(Long strategyId, Integer awardId) {
+        repository.updateStrategyAwardStock(strategyId,awardId);
     }
 }
