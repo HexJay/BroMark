@@ -1,4 +1,4 @@
-package com.jay.domain.strategy.model.entity;
+package com.jay.api.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,25 +7,30 @@ import lombok.NoArgsConstructor;
 
 /**
  * @author Jay
- * @date 2025/6/30 16:36
- * @description 奖品实体
+ * @date 2025/7/9 22:46
+ * @description 奖品列表返回结果
  */
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class RaffleAwardEntity {
+public class RaffleAwardListResponseDTO {
 
     /**
      * 抽奖奖品ID - 内部流转使用
-     **/
+     */
     private Integer awardId;
     /**
-     * 奖品配置信息
-     **/
-    private String awardConfig;
+     * 抽奖奖品标题
+     */
+    private String awardTitle;
+    /**
+     * 抽奖奖品副标题
+     */
+    private String awardSubtitle;
     /**
      * 排序
      */
     private Integer sort;
+
 }

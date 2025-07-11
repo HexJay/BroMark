@@ -49,7 +49,7 @@ public class RuleStockLogicTreeNode implements ILogicTreeNode {
                     .build();
         }
         // 3.扣减失败
-
+        log.warn("规则过滤 - 扣减库存 - 库存不足 userId: {}, strategyId: {}, awardId: {}", userId, strategyId, awardId);
         return DefaultTreeFactory.TreeActionEntity.builder()
                 .ruleLogicCheckType(RuleLogicCheckTypeVO.ALLOW)
                 .build();

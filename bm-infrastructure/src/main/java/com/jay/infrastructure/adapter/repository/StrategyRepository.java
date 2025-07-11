@@ -17,6 +17,7 @@ import com.jay.infrastructure.dao.*;
 import com.jay.infrastructure.dao.po.*;
 import com.jay.infrastructure.redis.IRedisService;
 import com.jay.types.common.Constants;
+import com.jay.types.exception.AppException;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RBlockingQueue;
 import org.redisson.api.RDelayedQueue;
@@ -30,6 +31,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
+
+import static com.jay.types.enums.ResponseCode.UN_ASSEMBLED_STRATEGY_ARMORY;
 
 /**
  * @author Jay
@@ -58,7 +61,7 @@ public class StrategyRepository implements IStrategyRepository {
     @Override
     public List<StrategyAwardEntity> queryStrategyAwardList(Long strategyId) {
         // 1.设置Key
-        String key = Constants.RedisKey.STRATEGY_AWARD_KEY + strategyId;
+        String key = Constants.RedisKey.STRATEGY_AWARD_LIST_KEY + strategyId;
         // 2.从Redis查询
         List<StrategyAwardEntity> list = redisService.getList(key, StrategyAwardEntity.class);
         // 3.查询成功，直接返回
@@ -95,7 +98,11 @@ public class StrategyRepository implements IStrategyRepository {
 
     @Override
     public int getRateRange(String key) {
-        return redisService.getValue(Constants.RedisKey.STRATEGY_RATE_RANGE_KEY + key);
+        String cacheKey = Constants.RedisKey.STRATEGY_RATE_RANGE_KEY + key;
+        if (!redisService.isExists(cacheKey)) {
+            throw new AppException(UN_ASSEMBLED_STRATEGY_ARMORY.getCode(),cacheKey + Constants.COLON + UN_ASSEMBLED_STRATEGY_ARMORY.getInfo());
+        }
+        return redisService.getValue(cacheKey);
     }
 
     @Override
@@ -260,5 +267,33 @@ public class StrategyRepository implements IStrategyRepository {
         strategyAward.setStrategyId(strategyId);
         strategyAward.setAwardId(awardId);
         strategyAwardDao.updateStrategyAwardStock(strategyAward);
+    }
+
+    /**
+     * 根据策略ID+奖品ID的唯一组合，查询奖品信息
+     *
+     * @param strategyId
+     * @param awardId
+     * @return
+     */
+    @Override
+    public StrategyAwardEntity queryStrategyAwardEntity(Long strategyId, Integer awardId) {
+
+        // 缓存获取
+        String cacheKey = Constants.RedisKey.STRATEGY_AWARD_KEY + strategyId + Constants.COLON + awardId;
+        String json = redisService.getValue(cacheKey);
+        if (json != null) {
+            return JSON.parseObject(json, StrategyAwardEntity.class);
+        }
+
+        StrategyAward query = new StrategyAward();
+        query.setStrategyId(strategyId);
+        query.setAwardId(awardId);
+        StrategyAward strategyAward = strategyAwardDao.queryStrategyAward(query);
+
+        // 缓存
+        StrategyAwardEntity strategyAwardEntity = BeanUtil.copyProperties(strategyAward, StrategyAwardEntity.class);
+        redisService.setValue(cacheKey, JSON.toJSONString(strategyAwardEntity));
+        return strategyAwardEntity;
     }
 }

@@ -19,18 +19,36 @@
     <update id="updateStrategyAwardStock" parameterType="com.jay.infrastructure.dao.po.StrategyAward">
         update big_market.strategy_award
         set award_count_surplus = award_count_surplus - 1
-        where strategy_id = #{strategyId} and award_id = #{awardId} and award_count_surplus > 0
+        where strategy_id = #{strategyId}
+          and award_id = #{awardId}
+          and award_count_surplus > 0
 
     </update>
 
     <select id="queryStrategyAwardListByStrategyId" parameterType="java.lang.Long" resultMap="dataMap">
-        select strategy_id, award_id, award_count, award_count_surplus, award_rate
+        select strategy_id,
+               award_id,
+               award_title,
+               award_subtitle,
+               award_count,
+               award_count_surplus,
+               award_rate,
+               sort
         from big_market.strategy_award
         where strategy_id = #{strategy_id}
     </select>
-    <select id="queryStrategyAwardRuleModels" resultType="java.lang.String" parameterType="com.jay.infrastructure.dao.po.StrategyAward">
+    <select id="queryStrategyAwardRuleModels" parameterType="com.jay.infrastructure.dao.po.StrategyAward"
+            resultType="java.lang.String"
+    >
         select rule_models
         from big_market.strategy_award
-        where strategy_id = #{strategyId} and award_id = #{awardId}
+        where strategy_id = #{strategyId}
+          and award_id = #{awardId}
+    </select>
+    <select id="queryStrategyAward" parameterType="com.jay.infrastructure.dao.po.StrategyAward" resultMap="dataMap">
+        select *
+        from big_market.strategy_award
+        where strategy_id = #{strategyId}
+          and award_id = #{awardId}
     </select>
 </mapper>
