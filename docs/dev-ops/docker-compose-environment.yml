@@ -1,6 +1,4 @@
-# 命令执行 docker-compose -f docker-compose-environment-aliyun.yml up -d
-# docker 代理和使用文档；https://bugstack.cn/md/road-map/docker.html
-version: "3.9"
+# 命令执行 docker compose -f docker-compose-environment.yml up -d
 services:
   mysql:
     image: mysql
@@ -50,8 +48,8 @@ services:
     ports:
       - 16379:6379
     volumes:
-      - ./redis:/usr/local/etc/redis
-    command: redis-server /usr/local/etc/redis/redis.conf
+      - ./redis:/redis
+    command: redis-server /redis/redis.conf
     networks:
       - network_jay
     healthcheck:

@@ -1,10 +1,7 @@
-# /usr/local/bin/docker-compose -f /docs/dev-ops/environment/environment-docker-compose-2.4.yml up -d
-version: '3.8'
-# docker-compose -f docker-compose-app.yml up -d
-# 你需要修改system为你自身系统的仓库名
+# docker compose -f docker-compose-app.yml up -d
 services:
   bm:
-    image: hexjay/bromark:1.0-SNAPSHOT
+    image: jay/bromark
     container_name: bm
     restart: on-failure
     ports:
@@ -27,15 +24,15 @@ services:
         max-size: "10m"
         max-file: "3"
     networks:
-      - bm-network
+      - network_jay
   big-market-front-app:
     container_name: big-market-front-app
-    image: hexjay/big-market-front-app
+    image: jay/big-market-front-app
     restart: always
     networks:
-      - bm-network
+      - network_jay
     ports:
-      - 3000:3000
+      - "3000:3000"
     environment:
       - API_HOST_URL=http://172.31.74.95:8091
       - PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
@@ -46,5 +43,5 @@ services:
       retries: 3
 
 networks:
-  bm-network:
+  network_jay:
     driver: bridge

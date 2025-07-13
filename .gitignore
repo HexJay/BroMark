@@ -41,3 +41,4 @@ build/
 /bm-app/data/
 /bm-app/hs_err_pid28628.log
 /bm-app/replay_pid28628.log
+/docs/dev-ops/redis/
