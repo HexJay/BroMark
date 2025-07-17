@@ -10,4 +10,7 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface IRaffleActivityAccountDao {
+    void insert(RaffleActivityAccount raffleActivityAccount);
+
+    int updateAccountQuota(RaffleActivityAccount raffleActivityAccount);
 }
