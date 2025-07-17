@@ -1,5 +1,6 @@
 package com.jay.infrastructure.dao;
 
+import com.jay.infrastructure.dao.po.RaffleActivityAccount;
 import org.apache.ibatis.annotations.Mapper;
 
 /**

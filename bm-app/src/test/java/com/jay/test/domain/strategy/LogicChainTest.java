@@ -1,4 +1,4 @@
-package com.jay.test.domain;
+package com.jay.test.domain.strategy;
 
 import com.jay.domain.strategy.service.armory.IStrategyArmory;
 import com.jay.domain.strategy.service.rule.chain.ILogicChain;

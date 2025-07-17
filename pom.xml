@@ -43,7 +43,7 @@
             <name>Jay</name>
             <email>HexJay1127@outlook.com</email>
             <organization>Jay</organization>
-            <organizationUrl>https://github.com/fuzhengwei</organizationUrl>
+            <organizationUrl>https://github.com/HexJay</organizationUrl>
         </developer>
     </developers>
 
@@ -62,6 +62,16 @@
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>org.jeasy</groupId>
+                <artifactId>easy-random-core</artifactId>
+                <version>4.3.0</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.bugstack.middleware</groupId>
+                <artifactId>db-router-spring-boot-starter</artifactId>
+                <version>1.0.2</version>
+            </dependency>
             <dependency>
                 <groupId>cn.hutool</groupId>
                 <artifactId>hutool-all</artifactId>
@@ -165,12 +175,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.0</version>
-                <configuration>
-                    <source>${java.version}</source>
-                    <target>${java.version}</target>
-                    <encoding>${project.build.sourceEncoding}</encoding>
-                </configuration>
+                <version>3.9.0</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

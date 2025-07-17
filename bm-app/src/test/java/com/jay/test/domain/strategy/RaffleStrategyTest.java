@@ -1,4 +1,4 @@
-package com.jay.test.domain;
+package com.jay.test.domain.strategy;
 
 import com.alibaba.fastjson2.JSON;
 import com.jay.domain.strategy.model.entity.RaffleAwardEntity;
@@ -16,7 +16,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import javax.annotation.Resource;
-import java.util.concurrent.CountDownLatch;
 
 /**
  * @author Jay

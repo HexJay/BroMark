@@ -1,6 +1,11 @@
 package com.jay.infrastructure.dao;
 
+import cn.bugstack.middleware.db.router.annotation.DBRouter;
+import cn.bugstack.middleware.db.router.annotation.DBRouterStrategy;
+import com.jay.infrastructure.dao.po.RaffleActivityOrder;
 import org.apache.ibatis.annotations.Mapper;
+
+import java.util.List;
 
 /**
  * @author Jay
@@ -8,5 +13,12 @@ import org.apache.ibatis.annotations.Mapper;
  * @description 抽奖活动订单表DAO
  */
 @Mapper
+@DBRouterStrategy(splitTable = true)
 public interface IRaffleActivityOrderDao {
+
+    @DBRouter(key = "userId")
+    void insert(RaffleActivityOrder raffleActivityOrder);
+
+    @DBRouter
+    List<RaffleActivityOrder> queryRaffleActivityOrdersByUserId(String userId);
 }

@@ -1,3 +1,4 @@
+create database if not exists `big_market`;
 use `big_market`;
 
 # 转储表 award
@@ -302,54 +303,103 @@ UNLOCK TABLES;
 
 # 转储表 raffle_activity
 # ------------------------------------------------------------
-drop table if exists `raffle_activity`;
 
-create table `raffle_activity`
+DROP TABLE IF EXISTS `raffle_activity`;
+
+CREATE TABLE `raffle_activity`
 (
-    `id`                  bigint unsigned not null auto_increment comment '自增ID',
-    `activity_id`         bigint          not null comment '活动ID',
-    `activity_name`       varchar(64)     not null comment '活动名称',
-    `activity_desc`       varchar(128)    not null comment '活动描述',
-    `begin_date_time`     datetime        not null comment '开始时间',
-    `end_date_time`       datetime        not null comment '结束时间',
-    `stock_count`         int             not null comment '库存总量',
-    `stock_count_surplus` int             not null comment '剩余库存',
-    `activity_count_id`   bigint          not null comment '活动参与次数配置',
-    `strategy_id`         bigint          not null comment '抽奖策略ID',
-    `state`               varchar(8)      not null comment '活动状态',
-    `create_time`         datetime        not null default current_timestamp comment '创建时间',
-    `update_time`         datetime        not null default current_timestamp on update current_timestamp comment '更新时间',
-    primary key (`id`),
-    unique key `uq_activity_id` (`activity_id`),
-    key `idx_begin_date_time` (`begin_date_time`),
-    key `idx_end_date_time` (`end_date_time`)
-) engine = InnoDB
-  default charset = utf8mb4 comment = '抽奖活动表';
+    `id`              bigint(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增ID',
+    `activity_id`     bigint(12)          NOT NULL COMMENT '活动ID',
+    `activity_name`   varchar(64)         NOT NULL COMMENT '活动名称',
+    `activity_desc`   varchar(128)        NOT NULL COMMENT '活动描述',
+    `begin_date_time` datetime            NOT NULL COMMENT '开始时间',
+    `end_date_time`   datetime            NOT NULL COMMENT '结束时间',
+    `strategy_id`     bigint(8)           NOT NULL COMMENT '抽奖策略ID',
+    `state`           varchar(8)          NOT NULL DEFAULT 'create' COMMENT '活动状态',
+    `create_time`     datetime            NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `update_time`     datetime            NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `uq_activity_id` (`activity_id`),
+    KEY `idx_begin_date_time` (`begin_date_time`),
+    KEY `idx_end_date_time` (`end_date_time`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4 COMMENT ='抽奖活动表';
 
-insert into `raffle_activity` (`id`, `activity_id`, `activity_name`, `activity_desc`, `begin_date_time`,
-                               `end_date_time`, `stock_count`, `stock_count_surplus`, `activity_count_id`,
-                               `strategy_id`, `state`, `create_time`, `update_time`)
-values (1, 100301, '测试活动', '测试活动', current_timestamp, current_timestamp, 1000, 1000, 1, 100006, '0',
-        default, default);
+LOCK TABLES `raffle_activity` WRITE;
+/*!40000 ALTER TABLE `raffle_activity`
+    DISABLE KEYS */;
+
+INSERT INTO `raffle_activity` (`id`, `activity_id`, `activity_name`, `activity_desc`, `begin_date_time`,
+                               `end_date_time`, `strategy_id`, `state`, `create_time`, `update_time`)
+VALUES (1, 100301, '测试活动', '测试活动', '2024-03-09 10:15:10', '2034-03-09 10:15:10', 100006, 'create',
+        '2024-03-09 10:15:10', '2024-03-16 11:17:13');
+
+/*!40000 ALTER TABLE `raffle_activity`
+    ENABLE KEYS */;
+UNLOCK TABLES;
+
 
 # 转储表 raffle_activity_count
 # ------------------------------------------------------------
-drop table if exists `raffle_activity_count`;
 
-create table `raffle_activity_count`
+DROP TABLE IF EXISTS `raffle_activity_count`;
+
+CREATE TABLE `raffle_activity_count`
 (
-    `id`                bigint unsigned not null auto_increment comment '自增ID',
-    `activity_count_id` bigint          not null comment '活动次数编号',
-    `total_count`       int             not null comment '总次数',
-    `day_count`         int             not null comment '日次数',
-    `month_count`       int             not null comment '月次数',
-    `create_time`       datetime        not null default current_timestamp comment '创建时间',
-    `update_time`       datetime        not null default current_timestamp on update current_timestamp comment '更新时间',
-    primary key (`id`),
-    unique key `uq_activity_count_id` (`activity_count_id`)
-) engine = InnoDB
-  default charset = utf8mb4 comment = '抽奖活动次数配置表';
+    `id`                bigint(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增ID',
+    `activity_count_id` bigint(12)          NOT NULL COMMENT '活动次数编号',
+    `total_count`       int(8)              NOT NULL COMMENT '总次数',
+    `day_count`         int(8)              NOT NULL COMMENT '日次数',
+    `month_count`       int(8)              NOT NULL COMMENT '月次数',
+    `create_time`       datetime            NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `update_time`       datetime            NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `uq_activity_count_id` (`activity_count_id`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4 COMMENT ='抽奖活动次数配置表';
 
-insert into `raffle_activity_count` (`id`, `activity_count_id`, `total_count`, `day_count`, `month_count`,
+LOCK TABLES `raffle_activity_count` WRITE;
+/*!40000 ALTER TABLE `raffle_activity_count`
+    DISABLE KEYS */;
+
+INSERT INTO `raffle_activity_count` (`id`, `activity_count_id`, `total_count`, `day_count`, `month_count`,
                                      `create_time`, `update_time`)
-values (1, 1, 100, 2, 60, default, default);
+VALUES (1, 11101, 1, 1, 1, '2024-03-09 10:15:42', '2024-03-16 12:30:54');
+
+/*!40000 ALTER TABLE `raffle_activity_count`
+    ENABLE KEYS */;
+UNLOCK TABLES;
+
+
+# 转储表 raffle_activity_sku
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `raffle_activity_sku`;
+
+CREATE TABLE `raffle_activity_sku`
+(
+    `id`                  int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增ID',
+    `sku`                 bigint(12)       NOT NULL COMMENT '商品sku - 把每一个组合当做一个商品',
+    `activity_id`         bigint(12)       NOT NULL COMMENT '活动ID',
+    `activity_count_id`   bigint(12)       NOT NULL COMMENT '活动个人参与次数ID',
+    `stock_count`         int(11)          NOT NULL COMMENT '商品库存',
+    `stock_count_surplus` int(11)          NOT NULL COMMENT '剩余库存',
+    `create_time`         datetime         NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `update_time`         datetime         NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `uq_sku` (`sku`),
+    KEY `idx_activity_id_activity_count_id` (`activity_id`, `activity_count_id`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4;
+
+LOCK TABLES `raffle_activity_sku` WRITE;
+/*!40000 ALTER TABLE `raffle_activity_sku`
+    DISABLE KEYS */;
+
+INSERT INTO `raffle_activity_sku` (`id`, `sku`, `activity_id`, `activity_count_id`, `stock_count`,
+                                   `stock_count_surplus`, `create_time`, `update_time`)
+VALUES (1, 9011, 100301, 11101, 0, 0, '2024-03-16 11:41:09', '2024-03-16 11:59:21');
+
+/*!40000 ALTER TABLE `raffle_activity_sku`
+    ENABLE KEYS */;
+UNLOCK TABLES;

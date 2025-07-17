@@ -15,4 +15,6 @@
         <result column="create_time" property="createTime"/>
         <result column="update_time" property="updateTime"/>
     </resultMap>
+
+
 </mapper>
