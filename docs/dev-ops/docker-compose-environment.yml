@@ -27,7 +27,7 @@ services:
     container_name: phpmyadmin-j
     hostname: phpmyadmin
     ports:
-      - 8899:80
+      - "8899:80"
     environment:
       - PMA_HOST=mysql
       - PMA_PORT=3306
@@ -46,9 +46,11 @@ services:
     hostname: redis
     privileged: true
     ports:
-      - 16379:6379
+      - "16379:6379"
     volumes:
-      - ./redis:/redis
+      - ./redis/data:/redis/data
+      - ./redis/logs:/redis/logs
+      - ./redis/redis.conf:/redis/redis.conf
     command: redis-server /redis/redis.conf
     networks:
       - network_jay
@@ -65,7 +67,7 @@ services:
     hostname: redis-commander
     restart: always
     ports:
-      - 8081:8081
+      - "8081:8081"
     environment:
       - REDIS_HOSTS=local:redis:6379
       - HTTP_USER=admin
@@ -78,6 +80,22 @@ services:
     depends_on:
       redis:
         condition: service_healthy
+
+  # rabbitmq
+  # 账户密码admin/admin
+  rabbitmq:
+    image: rabbitmq
+    container_name: rabbitmq-j
+    restart: always
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: admin
+    command: rabbitmq-server
+    volumes:
+      - ./rabbitmq/enabled_plugins:/etc/rabbitmq/enabled_plugins
 
 networks:
   network_jay:

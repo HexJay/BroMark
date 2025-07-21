@@ -5,6 +5,9 @@ import com.jay.domain.activity.model.aggregate.CreateOrderAggregate;
 import com.jay.domain.activity.model.entity.ActivityCountEntity;
 import com.jay.domain.activity.model.entity.ActivityEntity;
 import com.jay.domain.activity.model.entity.ActivitySkuEntity;
+import com.jay.domain.activity.model.vo.ActivitySkuStockKeyVO;
+
+import java.util.Date;
 
 /**
  * @author Jay
@@ -19,4 +22,18 @@ public interface IActivityRepository {
     ActivityCountEntity queryRaffleActivityCountByActivityCountId(Long activityCountId);
 
     void doSaveOrder(CreateOrderAggregate aggregate);
+
+    void cacheActivitySkuStockCount(String key, Integer stockCount);
+
+    boolean subtractionActivitySkuStock(Long sku, String key, Date endDateTime);
+
+    void activitySkuStockConsumeSendQueue(ActivitySkuStockKeyVO activitySkuStockKeyVO);
+
+    ActivitySkuStockKeyVO takeQueueValue();
+
+    void clearQueue();
+
+    void updateActivitySkuStock(Long sku);
+
+    void clearActivitySkuStock(Long sku);
 }

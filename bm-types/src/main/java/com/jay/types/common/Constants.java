@@ -17,5 +17,8 @@ public class Constants {
         public static final String STRATEGY_AWARD_COUNT_QUEUE_KEY = "bm:strategy:award:count:query:key:";
         public static final String ACTIVITY_KEY = "bm:activity:key:";
         public static final String ACTIVITY_COUNT_KEY = "bm:activity:count:key:";
+        public static final String ACTIVITY_SKU_STOCK_COUNT_KEY = "bm:activity:sku:stock:count:key:";
+        public static final String ACTIVITY_SKU_STOCK_QUEUE_KEY = "bm:activity:sku:stock:queue:key:";
+        public static final String ACTIVITY_SKU_KEY = "bm:activity:sku:key:";
     }
 }
