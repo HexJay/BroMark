@@ -19,7 +19,9 @@
             <level>info</level>
         </filter>
         <encoder>
-            <pattern>%d{yy-MM-dd.HH:mm:ss.SSS} [%-16t] %-5p %-22c{0}%X{ServiceId} -%X{trace-id} %m%n</pattern>
+            <pattern>
+                %d{HH:mm:ss.SSS} [%highlight(%-5level)] [%-15thread] %-50.50(%method \(%file:%line\)) - %msg%n
+            </pattern>
             <charset>UTF-8</charset>
         </encoder>
     </appender>

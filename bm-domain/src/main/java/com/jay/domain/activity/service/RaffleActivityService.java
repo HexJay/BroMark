@@ -1,8 +1,10 @@
 package com.jay.domain.activity.service;
 
 
+import com.jay.domain.activity.ISkuStock;
 import com.jay.domain.activity.model.aggregate.CreateOrderAggregate;
 import com.jay.domain.activity.model.entity.*;
+import com.jay.domain.activity.model.vo.ActivitySkuStockKeyVO;
 import com.jay.domain.activity.model.vo.OrderStateVO;
 import com.jay.domain.activity.repository.IActivityRepository;
 import com.jay.domain.activity.service.rule.factory.DefaultActivityChainFactory;
@@ -17,7 +19,7 @@ import java.util.Date;
  * @description TODO
  */
 @Service
-public class RaffleActivityService extends AbstractRaffleActivity{
+public class RaffleActivityService extends AbstractRaffleActivity implements ISkuStock {
 
     public RaffleActivityService(IActivityRepository repository, DefaultActivityChainFactory defaultActivityChainFactory) {
         super(repository, defaultActivityChainFactory);
@@ -57,4 +59,23 @@ public class RaffleActivityService extends AbstractRaffleActivity{
                 .build();
     }
 
+    @Override
+    public ActivitySkuStockKeyVO takeQueueValue() throws InterruptedException {
+        return repository.takeQueueValue();
+    }
+
+    @Override
+    public void clearQueue() {
+        repository.clearQueue();
+    }
+
+    @Override
+    public void updateActivitySkuStock(Long Sku) {
+        repository.updateActivitySkuStock(Sku);
+    }
+
+    @Override
+    public void clearActivitySkuStock(Long sku) {
+        repository.clearActivitySkuStock(sku);
+    }
 }
