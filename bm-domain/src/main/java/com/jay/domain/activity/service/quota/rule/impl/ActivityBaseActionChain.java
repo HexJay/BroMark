@@ -1,11 +1,11 @@
-package com.jay.domain.activity.service.rule.impl;
+package com.jay.domain.activity.service.quota.rule.impl;
 
 
 import com.jay.domain.activity.model.entity.ActivityCountEntity;
 import com.jay.domain.activity.model.entity.ActivityEntity;
 import com.jay.domain.activity.model.entity.ActivitySkuEntity;
 import com.jay.domain.activity.model.vo.ActivityStateVO;
-import com.jay.domain.activity.service.rule.AbstractActionChain;
+import com.jay.domain.activity.service.quota.rule.AbstractActionChain;
 import com.jay.types.enums.ResponseCode;
 import com.jay.types.exception.AppException;
 import lombok.extern.slf4j.Slf4j;

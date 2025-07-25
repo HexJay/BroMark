@@ -1,8 +1,7 @@
-package com.jay.domain.activity.service.rule.factory;
+package com.jay.domain.activity.service.quota.rule.factory;
 
 
-import com.jay.domain.activity.repository.IActivityRepository;
-import com.jay.domain.activity.service.rule.IActionChain;
+import com.jay.domain.activity.service.quota.rule.IActionChain;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.stereotype.Service;

@@ -8,7 +8,7 @@ import com.jay.domain.activity.model.entity.SkuRechargeEntity;
  * @date 2025/7/16 16:29
  * @description TODO
  */
-public interface IRaffleOrder {
+public interface IRaffleActivityAccountQuotaService {
     /**
      * 创建 sku 账户充值订单，给用户增加抽奖次数
      * <p>
@@ -18,6 +18,6 @@ public interface IRaffleOrder {
      * @param skuRechargeEntity 活动商品充值实体对象
      * @return 活动ID
      */
-    String createSkuRechargeOrder(SkuRechargeEntity skuRechargeEntity);
+    String createOrder(SkuRechargeEntity skuRechargeEntity);
 
 }

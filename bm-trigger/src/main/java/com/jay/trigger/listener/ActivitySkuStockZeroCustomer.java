@@ -3,7 +3,7 @@ package com.jay.trigger.listener;
 
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.TypeReference;
-import com.jay.domain.activity.ISkuStock;
+import com.jay.domain.activity.service.IRaffleActivitySkuStockService;
 import com.jay.types.event.BaseEvent;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.Queue;
@@ -26,7 +26,7 @@ public class ActivitySkuStockZeroCustomer {
     private String topic;
 
     @Resource
-    private ISkuStock skuStock;
+    private IRaffleActivitySkuStockService skuStock;
 
     /**
      * 监听topic为activity_sku_stock_zero

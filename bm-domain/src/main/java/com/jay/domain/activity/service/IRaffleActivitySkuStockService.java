@@ -1,4 +1,4 @@
-package com.jay.domain.activity;
+package com.jay.domain.activity.service;
 
 
 import com.jay.domain.activity.model.vo.ActivitySkuStockKeyVO;
@@ -8,7 +8,7 @@ import com.jay.domain.activity.model.vo.ActivitySkuStockKeyVO;
  * @date 2025/7/20 23:31
  * @description 活动sku库存处理接口
  */
-public interface ISkuStock {
+public interface IRaffleActivitySkuStockService {
 
     /**
      * 获取活动sku库存消耗队列

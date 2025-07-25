@@ -1,6 +1,7 @@
-package com.jay.infrastructure.dao.po;
+package com.jay.domain.activity.model.entity;
 
 
+import com.jay.domain.activity.model.vo.UserRaffleOrderStateVO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,16 +11,14 @@ import java.util.Date;
 
 /**
  * @author Jay
- * @date 2025/7/22 20:47
- * @description 用户抽奖订单表
+ * @date 2025/7/22 21:52
+ * @description TODO
  */
 @Data
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
-public class UserRaffleOrder {
-
-    private String id;
+@NoArgsConstructor
+public class UserRaffleOrderEntity {
     /** 用户ID */
     private String userId;
     /** 活动ID */
@@ -33,10 +32,5 @@ public class UserRaffleOrder {
     /** 下单时间 */
     private Date orderTime;
     /** 订单状态；create-创建、used-已使用、cancel-已作废 */
-    private String orderState;
-    /** 创建时间 */
-    private Date createTime;
-    /** 更新时间 */
-    private Date updateTime;
-
+    private UserRaffleOrderStateVO orderState;
 }

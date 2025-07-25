@@ -1,12 +1,10 @@
-package com.jay.infrastructure.dao.po;
+package com.jay.domain.activity.model.entity;
 
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.Date;
 
 /**
  * @author Jay
@@ -15,11 +13,10 @@ import java.util.Date;
  */
 @Data
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
-public class RaffleActivityAccountMonth {
-    /** 自增ID */
-    private String id;
+@NoArgsConstructor
+public class ActivityAccountMonthEntity {
+
     /** 用户ID */
     private String userId;
     /** 活动ID */
@@ -30,9 +27,5 @@ public class RaffleActivityAccountMonth {
     private Integer monthCount;
     /** 月次数-剩余 */
     private Integer monthCountSurplus;
-    /** 创建时间 */
-    private Date createTime;
-    /** 更新时间 */
-    private Date updateTime;
 
 }

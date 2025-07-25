@@ -1,4 +1,4 @@
-package com.jay.domain.activity.service.rule;
+package com.jay.domain.activity.service.quota.rule;
 
 
 /**

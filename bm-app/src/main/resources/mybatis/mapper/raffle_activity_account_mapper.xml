@@ -36,4 +36,44 @@
         where user_id = #{userId}
           and activity_id = #{activityId}
     </update>
+    <update id="updateActivityAccountSubtractionQuota"
+            parameterType="com.jay.infrastructure.dao.po.RaffleActivityAccount">
+        update raffle_activity_account
+        set total_count_surplus = total_count_surplus - 1,
+            day_count_surplus   = day_count_surplus - 1,
+            month_count_surplus = month_count_surplus - 1
+        where user_id = #{userId}
+          and activity_id = #{activityId}
+          and total_count_surplus > 0
+          and day_count_surplus > 0
+          and month_count_surplus > 0
+    </update>
+    <update id="updateActivityAccountMonthSurplusImageQuota"
+            parameterType="com.jay.infrastructure.dao.po.RaffleActivityAccount">
+        update raffle_activity_account
+        set month_count_surplus = #{monthCountSurplus} - 1
+        where user_id = #{userId}
+          and activity_id = #{activityId}
+    </update>
+    <update id="updateActivityAccountDaySurplusImageQuota"
+            parameterType="com.jay.infrastructure.dao.po.RaffleActivityAccount">
+        update raffle_activity_account
+        set day_count_surplus = #{dayCountSurplus} - 1
+        where user_id = #{userId}
+          and activity_id = #{activityId}
+    </update>
+    <select id="queryActivityAccount" parameterType="com.jay.infrastructure.dao.po.RaffleActivityAccount"
+            resultMap="dataMap">
+        select user_Id,
+               activity_id,
+               total_count,
+               total_count_surplus,
+               day_count,
+               day_count_surplus,
+               month_count,
+               month_count_surplus
+        from raffle_activity_account
+        where user_id = #{userId}
+          and activity_id = #{activityId}
+    </select>
 </mapper>
