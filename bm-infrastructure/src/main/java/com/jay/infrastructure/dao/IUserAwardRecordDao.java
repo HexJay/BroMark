@@ -1,6 +1,10 @@
 package com.jay.infrastructure.dao;
 
 
+import cn.bugstack.middleware.db.router.annotation.DBRouter;
+import cn.bugstack.middleware.db.router.annotation.DBRouterStrategy;
+import com.jay.domain.award.model.aggregate.UserAwardRecordAggregate;
+import com.jay.infrastructure.dao.po.UserAwardRecord;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -9,5 +13,7 @@ import org.apache.ibatis.annotations.Mapper;
  * @description 用户中奖记录表
  */
 @Mapper
+@DBRouterStrategy(splitTable = true)
 public interface IUserAwardRecordDao {
+    void insert(UserAwardRecord userAwardRecord);
 }

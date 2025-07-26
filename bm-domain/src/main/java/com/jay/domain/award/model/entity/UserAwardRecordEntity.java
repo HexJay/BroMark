@@ -1,21 +1,24 @@
-package com.jay.infrastructure.dao.po;
+package com.jay.domain.award.model.entity;
 
 
+import com.jay.domain.award.model.vo.AwardStateVO;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
 /**
  * @author Jay
- * @date 2025/7/22 20:46
- * @description 用户中奖记录表
+ * @date 2025/7/25 18:13
+ * @description TODO
  */
 @Data
 @Builder
-public class UserAwardRecord {
-    /** 自增ID */
-    private String id;
+@AllArgsConstructor
+@NoArgsConstructor
+public class UserAwardRecordEntity {
     /** 用户ID */
     private String userId;
     /** 活动ID */
@@ -31,10 +34,5 @@ public class UserAwardRecord {
     /** 中奖时间 */
     private Date awardTime;
     /** 奖品状态；create-创建、completed-发奖完成 */
-    private String awardState;
-    /** 创建时间 */
-    private Date createTime;
-    /** 更新时间 */
-    private Date updateTime;
-
+    private AwardStateVO awardState;
 }

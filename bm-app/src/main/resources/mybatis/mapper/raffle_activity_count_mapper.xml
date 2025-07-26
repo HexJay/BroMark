@@ -3,7 +3,7 @@
 <mapper namespace="com.jay.infrastructure.dao.IRaffleActivityCountDao">
 
     <resultMap id="dataMap" type="com.jay.infrastructure.dao.po.RaffleActivityCount">
-        <result column="id" property="id"/>
+        <id column="id" property="id"/>
         <result column="activity_count_id" property="activityCountId"/>
         <result column="total_count" property="totalCount"/>
         <result column="day_count" property="dayCount"/>

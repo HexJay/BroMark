@@ -3,7 +3,7 @@
 <mapper namespace="com.jay.infrastructure.dao.IUserRaffleOrderDao">
 
     <resultMap id="dataMap" type="com.jay.infrastructure.dao.po.UserRaffleOrder">
-        <result column="id" property="id"/>
+        <id column="id" property="id"/>
         <result column="user_id" property="userId"/>
         <result column="activity_id" property="activityId"/>
         <result column="activity_name" property="activityName"/>

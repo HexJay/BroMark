@@ -3,12 +3,12 @@
 <mapper namespace="com.jay.infrastructure.dao.IRuleTreeDao">
     <resultMap id="dataMap" type="com.jay.infrastructure.dao.po.RuleTree">
         <id column="id" property="id"/>
-        <id column="tree_id" property="treeId"/>
-        <id column="tree_name" property="treeName"/>
-        <id column="tree_desc" property="treeDesc"/>
-        <id column="tree_node_rule_key" property="treeRootRuleKey"/>
-        <id column="create_time" property="createTime"/>
-        <id column="update_time" property="updateTime"/>
+        <result column="tree_id" property="treeId"/>
+        <result column="tree_name" property="treeName"/>
+        <result column="tree_desc" property="treeDesc"/>
+        <result column="tree_node_rule_key" property="treeRootRuleKey"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
     </resultMap>
     
     <select id="queryRuleTreeTreeId" parameterType="java.lang.String" resultMap="dataMap">
