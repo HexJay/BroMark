@@ -8,7 +8,7 @@ import lombok.Data;
  * @description 抽奖请求对象
  */
 @Data
-public class RaffleRequestDTO {
+public class RaffleStrategyRequestDTO {
     /**
      * 策略Id
      */

@@ -41,10 +41,22 @@ public class Response<T> implements Serializable {
         return of(res, info, null);
     }
 
+    public static <T> Response<T> fail(String res, String info) {
+        return of(res, info, null);
+    }
+
     public static <T> Response<T> of(ResponseCode res, String info, T data) {
         Response<T> response = new Response<T>();
         response.setCode(res.getCode());
         response.setInfo(info != null ? info : res.getInfo());
+        response.setData(data);
+        return response;
+    }
+
+    public static <T> Response<T> of(String res, String info, T data) {
+        Response<T> response = new Response<T>();
+        response.setCode(res);
+        response.setInfo(info);
         response.setData(data);
         return response;
     }

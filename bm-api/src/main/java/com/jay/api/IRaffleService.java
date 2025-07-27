@@ -2,8 +2,8 @@ package com.jay.api;
 
 import com.jay.api.dto.RaffleAwardListRequestDTO;
 import com.jay.api.dto.RaffleAwardListResponseDTO;
-import com.jay.api.dto.RaffleRequestDTO;
-import com.jay.api.dto.RaffleResponseDTO;
+import com.jay.api.dto.RaffleStrategyRequestDTO;
+import com.jay.api.dto.RaffleStrategyResponseDTO;
 import com.jay.api.response.Response;
 
 import java.util.List;
@@ -33,5 +33,5 @@ public interface IRaffleService {
      * @param requestDTO 请求参数
      * @return 抽奖结果
      */
-    Response<RaffleResponseDTO> raffle(RaffleRequestDTO requestDTO);
+    Response<RaffleStrategyResponseDTO> raffle(RaffleStrategyRequestDTO requestDTO);
 }

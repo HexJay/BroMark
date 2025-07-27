@@ -19,6 +19,11 @@
         VALUES (#{userId}, #{activityId}, #{activityName}, #{strategyId}, #{orderId}, #{orderTime}, #{orderState},
                 now(), now())
     </insert>
+    <update id="updateUserRaffleOrderStateUsed" parameterType="com.jay.infrastructure.dao.po.UserRaffleOrder">
+        update user_raffle_order
+        set order_state = 'used'
+        where user_id = #{userId} and order_id = #{orderId} and order_state = 'create'
+    </update>
 
     <select id="queryNoUsedRaffleOrder" parameterType="com.jay.infrastructure.dao.po.UserRaffleOrder" resultMap="dataMap">
         select user_id, activity_id, activity_name, strategy_id, order_id, order_time, order_state

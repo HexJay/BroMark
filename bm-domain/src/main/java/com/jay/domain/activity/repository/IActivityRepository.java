@@ -7,6 +7,7 @@ import com.jay.domain.activity.model.entity.*;
 import com.jay.domain.activity.model.vo.ActivitySkuStockKeyVO;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author Jay
@@ -45,4 +46,6 @@ public interface IActivityRepository {
     ActivityAccountMonthEntity queryActivityAccountMonth(String userId, Long activityId, String month);
 
     ActivityAccountEntity queryActivityAccount(String userId, Long activityId);
+
+    List<ActivitySkuEntity> queryActivitySkuListByActivityId(Long activityId);
 }

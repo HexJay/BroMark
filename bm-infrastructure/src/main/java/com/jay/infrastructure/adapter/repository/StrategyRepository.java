@@ -57,6 +57,10 @@ public class StrategyRepository implements IStrategyRepository {
     private IRuleTreeNodeDao ruleTreeNodeDao;
     @Resource
     private IRuleTreeNodeLineDao ruleTreeNodeLineDao;
+    @Resource
+    private IRaffleActivityDao raffleActivityDao;
+    @Resource
+    private IRaffleActivityAccountDayDao raffleActivityAccountDayDao;
 
     @Override
     public List<StrategyAwardEntity> queryStrategyAwardList(Long strategyId) {
@@ -100,7 +104,7 @@ public class StrategyRepository implements IStrategyRepository {
     public int getRateRange(String key) {
         String cacheKey = Constants.RedisKey.STRATEGY_RATE_RANGE_KEY + key;
         if (!redisService.isExists(cacheKey)) {
-            throw new AppException(UN_ASSEMBLED_STRATEGY_ARMORY.getCode(),cacheKey + Constants.COLON + UN_ASSEMBLED_STRATEGY_ARMORY.getInfo());
+            throw new AppException(UN_ASSEMBLED_STRATEGY_ARMORY.getCode(), cacheKey + Constants.COLON + UN_ASSEMBLED_STRATEGY_ARMORY.getInfo());
         }
         return redisService.getValue(cacheKey);
     }
@@ -295,5 +299,28 @@ public class StrategyRepository implements IStrategyRepository {
         StrategyAwardEntity strategyAwardEntity = BeanUtil.copyProperties(strategyAward, StrategyAwardEntity.class);
         redisService.setValue(cacheKey, JSON.toJSONString(strategyAwardEntity));
         return strategyAwardEntity;
+    }
+
+    @Override
+    public Long queryStrategyIdByActivityId(Long activityId) {
+        return raffleActivityDao.queryStrategyIdByActivityId(activityId);
+    }
+
+    @Override
+    public Integer queryTodayUserRaffleCount(String userId, Long strategyId) {
+        // 活动ID
+        Long activityId = raffleActivityDao.queryActivityIdByStrategyId(strategyId);
+        // 封装参数
+        RaffleActivityAccountDay raffleActivityAccountDayReq = RaffleActivityAccountDay.builder()
+                .userId(userId)
+                .activityId(activityId)
+                .day(RaffleActivityAccountDay.currentDay())
+                .build();
+        // 查询用户当日抽奖次数
+        RaffleActivityAccountDay raffleActivityAccountDay
+                = raffleActivityAccountDayDao.queryActivityAccountDayByUserId(raffleActivityAccountDayReq);
+        if (raffleActivityAccountDay == null) return 0;
+        // 总次数 - 剩余 = 今日使用的
+        return raffleActivityAccountDay.getDayCount() - raffleActivityAccountDay.getDayCountSurplus();
     }
 }

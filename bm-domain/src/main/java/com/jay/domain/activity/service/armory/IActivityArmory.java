@@ -8,5 +8,7 @@ package com.jay.domain.activity.service.armory;
  */
 public interface IActivityArmory {
 
+    boolean assembleActivitySkuByActivity(Long activityId);
+
     boolean assembleActivitySku(Long sku);
 }

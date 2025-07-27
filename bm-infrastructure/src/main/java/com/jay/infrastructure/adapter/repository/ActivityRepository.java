@@ -31,7 +31,9 @@ import org.springframework.transaction.support.TransactionTemplate;
 
 import javax.annotation.Resource;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 /**
  * @author Jay
@@ -428,5 +430,12 @@ public class ActivityRepository implements IActivityRepository {
                 .monthCount(raffleActivityAccount.getMonthCount())
                 .monthCountSurplus(raffleActivityAccount.getMonthCountSurplus())
                 .build();
+    }
+
+    @Override
+    public List<ActivitySkuEntity> queryActivitySkuListByActivityId(Long activityId) {
+        List<RaffleActivitySku> raffleActivitySkuList = raffleActivitySkuDao.queryActivitySkuListByActivityId(activityId);
+        return raffleActivitySkuList.stream()
+                .map(entity -> BeanUtil.copyProperties(entity, ActivitySkuEntity.class)).collect(Collectors.toList());
     }
 }

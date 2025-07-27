@@ -16,4 +16,5 @@
         from strategy
         where strategy_id = #{strategyId};
     </select>
+
 </mapper>

@@ -25,6 +25,7 @@ import java.util.*;
 @Service
 public class StrategyArmoryDispatch implements IStrategyArmory, IStrategyDispatch {
 
+    private static final SecureRandom RANDOM = new SecureRandom();
     @Resource
     private IStrategyRepository repository;
 
@@ -72,10 +73,17 @@ public class StrategyArmoryDispatch implements IStrategyArmory, IStrategyDispatc
         return true;
     }
 
+    @Override
+    public Boolean assembleLotteryStrategyByActivityId(Long activityId) {
+        Long strategyId = repository.queryStrategyIdByActivityId(activityId);
+        return assembleLotteryStrategy(strategyId);
+    }
+
     /**
      * 缓存奖品的库存
+     *
      * @param strategyId 策略ID
-     * @param awardId 奖品ID
+     * @param awardId    奖品ID
      * @param awardCount 奖品库存
      */
     private void cacheStrategyAwardCount(Long strategyId, Integer awardId, Integer awardCount) {
@@ -126,8 +134,6 @@ public class StrategyArmoryDispatch implements IStrategyArmory, IStrategyDispatc
         // 7.存入Redis
         repository.storeStrategyAwardSearchRateTables(key, shuffledStrategyAwardSearchRateTables.size(), shuffledStrategyAwardSearchRateTables);
     }
-
-    private static final SecureRandom RANDOM = new SecureRandom();
 
     @Override
     public Integer getRandomAwardId(Long strategyId) {

@@ -5,8 +5,8 @@ import com.alibaba.fastjson2.JSON;
 import com.jay.api.IRaffleService;
 import com.jay.api.dto.RaffleAwardListRequestDTO;
 import com.jay.api.dto.RaffleAwardListResponseDTO;
-import com.jay.api.dto.RaffleRequestDTO;
-import com.jay.api.dto.RaffleResponseDTO;
+import com.jay.api.dto.RaffleStrategyRequestDTO;
+import com.jay.api.dto.RaffleStrategyResponseDTO;
 import com.jay.api.response.Response;
 import com.jay.domain.strategy.model.entity.RaffleAwardEntity;
 import com.jay.domain.strategy.model.entity.RaffleFactorEntity;
@@ -30,8 +30,8 @@ import java.util.stream.Collectors;
 @Slf4j
 @RestController
 @CrossOrigin("${app.config.cross-origin}")
-@RequestMapping("/api/${app.config.api-version}/raffle/")
-public class IRaffleController implements IRaffleService {
+@RequestMapping("/api/${app.config.api-version}/raffle/strategy")
+public class RaffleStrategyController implements IRaffleService {
 
     @Resource
     private IStrategyArmory strategyArmory;
@@ -102,7 +102,7 @@ public class IRaffleController implements IRaffleService {
      */
     @Override
     @RequestMapping(value = "random_raffle", method = RequestMethod.POST)
-    public Response<RaffleResponseDTO> raffle(@RequestBody RaffleRequestDTO requestDTO) {
+    public Response<RaffleStrategyResponseDTO> raffle(@RequestBody RaffleStrategyRequestDTO requestDTO) {
         try{
             log.info("随机抽奖开始 strategyId: {}", requestDTO.getStrategyId());
             // 调用抽奖接口
@@ -111,7 +111,7 @@ public class IRaffleController implements IRaffleService {
                     .strategyId(requestDTO.getStrategyId())
                     .build());
             //封装返回结果
-            RaffleResponseDTO response = RaffleResponseDTO.builder()
+            RaffleStrategyResponseDTO response = RaffleStrategyResponseDTO.builder()
                     .awardId(raffleAwardEntity.getAwardId())
                     .awardIndex(raffleAwardEntity.getSort())
                     .build();

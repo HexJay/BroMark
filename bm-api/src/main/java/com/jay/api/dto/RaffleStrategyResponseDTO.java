@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class RaffleResponseDTO {
+public class RaffleStrategyResponseDTO {
 
     /**
      * 抽奖奖品ID - 内部流转使用
