@@ -7,6 +7,7 @@ import com.jay.domain.strategy.model.vo.tree.RuleTreeVO;
 import com.jay.domain.strategy.repository.IStrategyRepository;
 import com.jay.domain.strategy.service.AbstractRaffleStrategy;
 import com.jay.domain.strategy.service.IRaffleAward;
+import com.jay.domain.strategy.service.IRaffleRule;
 import com.jay.domain.strategy.service.IRaffleStock;
 import com.jay.domain.strategy.service.armory.IStrategyDispatch;
 import com.jay.domain.strategy.service.rule.chain.ILogicChain;
@@ -17,6 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Jay
@@ -25,7 +27,7 @@ import java.util.List;
  */
 @Slf4j
 @Service
-public class DefaultRaffleStrategy extends AbstractRaffleStrategy implements IRaffleAward, IRaffleStock {
+public class DefaultRaffleStrategy extends AbstractRaffleStrategy implements IRaffleAward, IRaffleStock, IRaffleRule {
 
     public DefaultRaffleStrategy(DefaultTreeFactory treeFactory, DefaultChainFactory chainFactory, IStrategyDispatch dispatch, IStrategyRepository repository) {
         super(treeFactory, chainFactory, dispatch, repository);
@@ -58,11 +60,22 @@ public class DefaultRaffleStrategy extends AbstractRaffleStrategy implements IRa
 
     @Override
     public void updateStrategyAwardStock(Long strategyId, Integer awardId) {
-        repository.updateStrategyAwardStock(strategyId,awardId);
+        repository.updateStrategyAwardStock(strategyId, awardId);
     }
 
     @Override
     public List<StrategyAwardEntity> queryRaffleStrategyAwards(Long strategyId) {
         return repository.queryStrategyAwardList(strategyId);
+    }
+
+    @Override
+    public List<StrategyAwardEntity> queryRaffleStrategyAwardsByActivityId(Long activityId) {
+        Long strategyId = repository.queryStrategyIdByActivityId(activityId);
+        return queryRaffleStrategyAwards(strategyId);
+    }
+
+    @Override
+    public Map<String, Integer> queryAwardRuleLockCount(String... treeIds) {
+        return repository.queryAwardRuleLockCount(treeIds);
     }
 }

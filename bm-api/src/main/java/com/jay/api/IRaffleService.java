@@ -24,14 +24,14 @@ public interface IRaffleService {
     Response<Boolean> strategyArmory(Long strategyId);
     /**
      * 奖品列表接口
-     * @param requestDTO 请求参数
+     * @param request 请求参数
      * @return 奖品列表
      */
-    Response<List<RaffleAwardListResponseDTO>> queryRaffleAwardList(RaffleAwardListRequestDTO requestDTO);
+    Response<List<RaffleAwardListResponseDTO>> queryRaffleAwardList(RaffleAwardListRequestDTO request);
     /**
      * 抽奖接口
-     * @param requestDTO 请求参数
+     * @param request 请求参数
      * @return 抽奖结果
      */
-    Response<RaffleStrategyResponseDTO> raffle(RaffleStrategyRequestDTO requestDTO);
+    Response<RaffleStrategyResponseDTO> raffle(RaffleStrategyRequestDTO request);
 }

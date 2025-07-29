@@ -78,4 +78,9 @@ public class RaffleActivityAccountQuotaService extends AbstractRaffleActivityAcc
     public void clearActivitySkuStock(Long sku) {
         repository.clearActivitySkuStock(sku);
     }
+
+    @Override
+    public Integer queryRaffleActivityAccountDayPartakeCount(String userId, Long activityId) {
+        return repository.queryRaffleActivityAccountDayPartakeCount(userId, activityId);
+    }
 }

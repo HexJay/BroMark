@@ -323,4 +323,17 @@ public class StrategyRepository implements IStrategyRepository {
         // 总次数 - 剩余 = 今日使用的
         return raffleActivityAccountDay.getDayCount() - raffleActivityAccountDay.getDayCountSurplus();
     }
+
+    @Override
+    public Map<String, Integer> queryAwardRuleLockCount(String[] treeIds) {
+        if (treeIds == null || treeIds.length == 0) return new HashMap<>();
+        List<RuleTreeNode> ruleTreeNodes = ruleTreeNodeDao.queryRuleLocks(treeIds);
+        Map<String, Integer> result = new HashMap<>();
+        for (RuleTreeNode ruleTreeNode : ruleTreeNodes) {
+            String treeId = ruleTreeNode.getTreeId();
+            Integer lockCount = Integer.valueOf(ruleTreeNode.getRuleValue());
+            result.put(treeId, lockCount);
+        }
+        return result;
+    }
 }

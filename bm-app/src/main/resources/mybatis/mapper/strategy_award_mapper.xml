@@ -33,7 +33,8 @@
                award_count,
                award_count_surplus,
                award_rate,
-               sort
+               sort,
+               rule_models
         from big_market.strategy_award
         where strategy_id = #{strategy_id}
     </select>

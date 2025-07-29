@@ -438,4 +438,15 @@ public class ActivityRepository implements IActivityRepository {
         return raffleActivitySkuList.stream()
                 .map(entity -> BeanUtil.copyProperties(entity, ActivitySkuEntity.class)).collect(Collectors.toList());
     }
+
+    @Override
+    public Integer queryRaffleActivityAccountDayPartakeCount(String userId, Long activityId) {
+        RaffleActivityAccountDay raffleActivityAccountDay = RaffleActivityAccountDay.builder()
+                .userId(userId)
+                .activityId(activityId)
+                .day(RaffleActivityAccountDay.currentDay())
+                .build();
+        Integer dayPartake = raffleActivityAccountDayDao.queryRaffleActivityAccountDayPartakeCount(raffleActivityAccountDay);
+        return null == dayPartake ? 0 : dayPartake;
+    }
 }
