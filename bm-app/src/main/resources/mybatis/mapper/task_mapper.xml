@@ -30,6 +30,12 @@
         where user_id = #{userId}
           and message_id = #{messageId}
     </update>
+    <update id="updateTaskSendMessageFail" parameterType="com.jay.infrastructure.dao.po.Task">
+        update task
+        set state = 'fail', update_time = now()
+        where user_id = #{userId} and message_id = #{messageId}
+
+    </update>
 
     <select id="queryNoSendMessageTaskList" resultMap="dataMap">
         select user_id, topic, message_id, message

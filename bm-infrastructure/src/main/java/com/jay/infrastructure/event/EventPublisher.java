@@ -5,7 +5,6 @@ import com.alibaba.fastjson.JSON;
 import com.jay.types.event.BaseEvent;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -16,8 +15,12 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 public class EventPublisher {
-    @Autowired
-    private RabbitTemplate rabbitTemplate;
+
+    private final RabbitTemplate rabbitTemplate;
+
+    public EventPublisher(RabbitTemplate rabbitTemplate) {
+        this.rabbitTemplate = rabbitTemplate;
+    }
 
     public void publish(String topic, BaseEvent.EventMessage<?> eventMassage) {
         try {

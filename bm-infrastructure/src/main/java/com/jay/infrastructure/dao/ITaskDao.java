@@ -21,4 +21,6 @@ public interface ITaskDao {
     void updateTaskSendMessageFailed(Task taskReq);
 
     List<Task> queryNoSendMessageTaskList();
+
+    void updateTaskSendMessageFail(Task task);
 }
