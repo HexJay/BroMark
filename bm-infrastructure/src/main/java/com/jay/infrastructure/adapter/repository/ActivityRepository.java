@@ -140,7 +140,7 @@ public class ActivityRepository implements IActivityRepository {
         RaffleActivityOrder order = BeanUtil.copyProperties(activityOrderEntity, RaffleActivityOrder.class);
         order.setState(activityOrderEntity.getState().getCode());
 
-        // 次数账户对象
+        // 账户对象 - 总
         RaffleActivityAccount raffleActivityAccount = new RaffleActivityAccount();
         raffleActivityAccount.setUserId(aggregate.getUserId());
         raffleActivityAccount.setActivityId(aggregate.getActivityId());
@@ -150,6 +150,21 @@ public class ActivityRepository implements IActivityRepository {
         raffleActivityAccount.setTotalCountSurplus(aggregate.getTotalCount());
         raffleActivityAccount.setDayCountSurplus(aggregate.getDayCount());
         raffleActivityAccount.setMonthCountSurplus(aggregate.getMonthCount());
+        // 账户对象 - 月
+        RaffleActivityAccountMonth raffleActivityAccountMonth = new RaffleActivityAccountMonth();
+        raffleActivityAccountMonth.setUserId(aggregate.getUserId());
+        raffleActivityAccountMonth.setActivityId(aggregate.getActivityId());
+        raffleActivityAccountMonth.setMonth(RaffleActivityAccountMonth.currentMonth());
+        raffleActivityAccountMonth.setMonthCount(aggregate.getMonthCount());
+        raffleActivityAccountMonth.setMonthCountSurplus(aggregate.getMonthCount());
+        // 账户对象 - 日
+        RaffleActivityAccountDay raffleActivityAccountDay = new RaffleActivityAccountDay();
+        raffleActivityAccountDay.setUserId(aggregate.getUserId());
+        raffleActivityAccountDay.setActivityId(aggregate.getActivityId());
+        raffleActivityAccountDay.setDay(RaffleActivityAccountDay.currentDay());
+        raffleActivityAccountDay.setDayCount(aggregate.getDayCount());
+        raffleActivityAccountDay.setDayCountSurplus(aggregate.getDayCount());
+
 
         try {
             // 以用户ID作为切分键，通过dbRouter设定路由
@@ -165,11 +180,15 @@ public class ActivityRepository implements IActivityRepository {
                     if (count == 0) {
                         raffleActivityAccountDao.insert(raffleActivityAccount);
                     }
+                    // 4. 更新账户 - 月
+                    raffleActivityAccountMonthDao.addAccountQuota(raffleActivityAccountMonth);
+                    // 5. 更新账户 - 日
+                    raffleActivityAccountDayDao.addAccountQuota(raffleActivityAccountDay);
                     return 1;
                 } catch (DuplicateKeyException e) {
                     status.setRollbackOnly();
                     log.error("写入订单记录，唯一索引冲突 userId:{} activityId:{} sku:{}", aggregate.getUserId(), aggregate.getActivityId(), activityOrderEntity.getSku());
-                    throw new AppException(ResponseCode.UN_ERROR.getCode());
+                    throw new AppException(ResponseCode.UN_ERROR.getCode(), ResponseCode.UN_ERROR.getInfo());
                 }
             });
         } finally {

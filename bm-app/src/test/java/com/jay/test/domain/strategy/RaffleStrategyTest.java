@@ -47,8 +47,7 @@ public class RaffleStrategyTest {
         // log.info("装配100003结果：{}", strategyArmory.assembleLotteryStrategy(100003L));
         log.info("装配100006结果：{}", strategyArmory.assembleLotteryStrategy(100006L));
         ReflectionTestUtils.setField(ruleWeightLogicChain, "userScore", 4900L);
-
-        ReflectionTestUtils.setField(ruleLockLogicTreeNode, "userCount", 10L);
+        // ReflectionTestUtils.setField(ruleLockLogicTreeNode, "raffleCount", 10L);
     }
 
     @Test

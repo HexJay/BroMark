@@ -43,7 +43,6 @@ public abstract class AbstractRaffleActivityAccountQuota extends RaffleActivityA
         // 3.活动动作规则校验
         IActionChain actionChain = defaultActivityChainFactory.openActionChain();
         actionChain.action(activitySkuEntity, activityEntity, activityCountEntity);
-
         // 4.构建订单聚合对象
         CreateOrderAggregate aggregate = buildOrderAggregate(skuRechargeEntity, activitySkuEntity,activityEntity, activityCountEntity);
         // 5.保存订单

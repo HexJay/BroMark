@@ -31,7 +31,7 @@ public class RaffleActivityPartakeServiceTest {
 
         // 请求参数
         PartakeRaffleActivityEntity partakeRaffleActivityEntity = new PartakeRaffleActivityEntity();
-        partakeRaffleActivityEntity.setUserId("Jay");
+        partakeRaffleActivityEntity.setUserId("xiaofuge");
         partakeRaffleActivityEntity.setActivityId(100301L);
         // 调用接口
         UserRaffleOrderEntity userRaffleOrder = raffleActivityPartakeService.createOrder(partakeRaffleActivityEntity);
