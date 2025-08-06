@@ -24,9 +24,7 @@ public class BlackListLogicChain extends AbstractLogicChain {
     @Override
     public DefaultChainFactory.StrategyAwardVO logic(String userId, Long strategyId) {
         log.info("抽奖责任链 - 黑名单处理开始 userId: {}, strategyId: {}, ruleModel: {}", userId, strategyId, ruleModel());
-
         String ruleValue = repository.queryStrategyRuleValue(strategyId, ruleModel());
-
         // 拆分
         String[] splitRuleValues = ruleValue.split(Constants.COLON);
         // 黑名单只能获得的奖品
@@ -39,6 +37,8 @@ public class BlackListLogicChain extends AbstractLogicChain {
                 return DefaultChainFactory.StrategyAwardVO.builder()
                         .awardId(awardId)
                         .logicModel(ruleModel())
+                        //黑名单 0.01 ~ 1积分
+                        .awardRuleValue("0.01,1")
                         .build();
             }
         }

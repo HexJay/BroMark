@@ -1,9 +1,7 @@
 package com.jay.infrastructure.dao;
 
 
-import cn.bugstack.middleware.db.router.annotation.DBRouter;
 import cn.bugstack.middleware.db.router.annotation.DBRouterStrategy;
-import com.jay.domain.award.model.aggregate.UserAwardRecordAggregate;
 import com.jay.infrastructure.dao.po.UserAwardRecord;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -16,4 +14,6 @@ import org.apache.ibatis.annotations.Mapper;
 @DBRouterStrategy(splitTable = true)
 public interface IUserAwardRecordDao {
     void insert(UserAwardRecord userAwardRecord);
+
+    int updateAwardRecordCompletedState(UserAwardRecord userAwardRecordReq);
 }

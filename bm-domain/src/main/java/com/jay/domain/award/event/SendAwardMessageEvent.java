@@ -41,9 +41,12 @@ public class SendAwardMessageEvent extends BaseEvent<SendAwardMessageEvent.SendA
     @Builder
     @AllArgsConstructor
     @NoArgsConstructor
-    public static class SendAwardMessage{
-        /** 用户ID */
+    public static class SendAwardMessage {
+        /**
+         * 用户ID
+         */
         private String userId;
+        private String orderId;
         /**
          * 抽奖奖品ID - 内部流转使用
          **/
@@ -52,5 +55,6 @@ public class SendAwardMessageEvent extends BaseEvent<SendAwardMessageEvent.SendA
          * 抽奖奖品标题
          */
         private String awardTitle;
+        private String awardConfig;
     }
 }
