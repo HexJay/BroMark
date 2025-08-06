@@ -3,6 +3,7 @@ package com.jay.domain.strategy.repository;
 import com.jay.domain.strategy.model.entity.StrategyAwardEntity;
 import com.jay.domain.strategy.model.entity.StrategyEntity;
 import com.jay.domain.strategy.model.entity.StrategyRuleEntity;
+import com.jay.domain.strategy.model.vo.RuleWeightVO;
 import com.jay.domain.strategy.model.vo.StrategyAwardRuleModelVO;
 import com.jay.domain.strategy.model.vo.StrategyAwardStockKeyVO;
 import com.jay.domain.strategy.model.vo.tree.RuleTreeVO;
@@ -67,4 +68,8 @@ public interface IStrategyRepository {
     Integer queryTodayUserRaffleCount(String userId, Long strategyId);
 
     Map<String, Integer> queryAwardRuleLockCount(String[] treeIds);
+
+    Integer queryActivityAccountTotalUseCount(String userId, Long strategyId);
+
+    List<RuleWeightVO> queryAwardRuleWeight(Long strategyId);
 }

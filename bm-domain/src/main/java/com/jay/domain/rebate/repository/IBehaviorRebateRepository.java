@@ -2,6 +2,7 @@ package com.jay.domain.rebate.repository;
 
 
 import com.jay.domain.rebate.model.aggregate.BehaviorRebateAggregate;
+import com.jay.domain.rebate.model.entity.BehaviorRebateOrderEntity;
 import com.jay.domain.rebate.model.vo.BehaviorTypeVO;
 import com.jay.domain.rebate.model.vo.DailyBehaviorRebateVO;
 
@@ -17,4 +18,6 @@ public interface IBehaviorRebateRepository {
     List<DailyBehaviorRebateVO> queryDailyBehaviorRebateConfig(BehaviorTypeVO behaviorTypeVO);
 
     void saveUserRebateRecord(String userId, List<BehaviorRebateAggregate> behaviorRebateAggregates);
+
+    List<BehaviorRebateOrderEntity> queryOrderByOutBusinessNo(String userId, String outBusinessNo);
 }

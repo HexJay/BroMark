@@ -27,8 +27,6 @@ public class RuleWeightLogicChain extends AbstractLogicChain {
     @Resource
     private IStrategyDispatch dispatch;
 
-    private Long userScore = 0L;
-
     /**
      * 权重责任链过滤：<p>
      * 1.权重规则格式;4000:102,103,104,105<p>
@@ -52,6 +50,8 @@ public class RuleWeightLogicChain extends AbstractLogicChain {
             // 2.1.不存在，放行
             return next().logic(userId, strategyId);
         }
+
+        Integer userScore = repository.queryActivityAccountTotalUseCount(userId, strategyId);
         // 2.2.权重规则存在，转换key值，找出最小符合规则
         List<Long> keys = new ArrayList<>(weightGroup.keySet());
         Long fittedKey = keys.stream()
@@ -74,7 +74,7 @@ public class RuleWeightLogicChain extends AbstractLogicChain {
 
     @Override
     protected String ruleModel() {
-        return DefaultChainFactory.LogicModel.RULE_WIGHT.getCode();
+        return DefaultChainFactory.LogicModel.RULE_WEIGHT.getCode();
     }
 
     private Map<Long, String> parseRuleWeight(String ruleWeights) {

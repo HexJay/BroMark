@@ -38,7 +38,7 @@
           and day = #{day}
           and day_count_surplus > 0
     </update>
-    <select id="queryActivityAccountDayByUserId" parameterType="com.jay.infrastructure.dao.po.RaffleActivityAccountDay" resultMap="dataMap">
+    <select id="queryActivityAccountDay" parameterType="com.jay.infrastructure.dao.po.RaffleActivityAccountDay" resultMap="dataMap">
         select user_id, activity_id, day, day_count, day_count_surplus
         from raffle_activity_account_day
         where user_id = #{userId}

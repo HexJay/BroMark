@@ -21,4 +21,5 @@ public interface IRaffleActivityAccountMonthDao {
     int updateActivityAccountMonthSubtractionQuota(RaffleActivityAccountMonth raffleActivityAccountMonthReq);
 
     void addAccountQuota(RaffleActivityAccountMonth raffleActivityAccountMonth);
+
 }

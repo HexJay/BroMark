@@ -2,7 +2,7 @@ package com.jay.test.trigger;
 
 
 import com.alibaba.fastjson2.JSON;
-import com.jay.api.IRaffleService;
+import com.jay.api.IRaffleStrategyService;
 import com.jay.api.dto.RaffleAwardListRequestDTO;
 import com.jay.api.dto.RaffleAwardListResponseDTO;
 import com.jay.api.response.Response;
@@ -26,7 +26,7 @@ import java.util.List;
 public class RaffleStrategyControllerTest {
 
     @Resource
-    private IRaffleService raffleStrategyService;
+    private IRaffleStrategyService raffleStrategyService;
 
     @Test
     public void test_queryRaffleAwardList() {

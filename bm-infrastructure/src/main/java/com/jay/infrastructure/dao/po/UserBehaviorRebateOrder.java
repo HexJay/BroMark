@@ -1,8 +1,10 @@
 package com.jay.infrastructure.dao.po;
 
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
@@ -13,6 +15,8 @@ import java.util.Date;
  */
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserBehaviorRebateOrder {
 
     /**
@@ -43,6 +47,8 @@ public class UserBehaviorRebateOrder {
      * 返利配置【sku值，积分值】
      */
     private String rebateConfig;
+    /** 业务仿重ID */
+    private String outBusinessNo;
     /**
      * 业务ID - 拼接的唯一值
      */
