@@ -22,5 +22,6 @@ public class Constants {
         public static final String ACTIVITY_SKU_STOCK_QUEUE_KEY = "bm:activity:sku:stock:queue:key:";
         public static final String ACTIVITY_SKU_KEY = "bm:activity:sku:key:";
         public static final String STRATEGY_RULE_WEIGHT_KEY = "bm:strategy:rule:weight:key:";
+        public static final String USER_CREDIT_ACCOUNT_LOCK = "user_credit_account_lock";
     }
 }
