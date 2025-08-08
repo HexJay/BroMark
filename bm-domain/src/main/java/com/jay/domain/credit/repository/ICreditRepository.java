@@ -2,6 +2,7 @@ package com.jay.domain.credit.repository;
 
 
 import com.jay.domain.credit.model.aggregate.TradeAggregate;
+import com.jay.domain.credit.model.entity.CreditAccountEntity;
 
 /**
  * @author Jay
@@ -11,5 +12,7 @@ import com.jay.domain.credit.model.aggregate.TradeAggregate;
 public interface ICreditRepository {
 
     void saveUserCreditTradeOrder(TradeAggregate tradeAggregate);
+
+    CreditAccountEntity queryUserCreditAccount(String userId);
 }
 

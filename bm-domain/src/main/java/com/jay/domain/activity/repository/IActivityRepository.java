@@ -58,4 +58,8 @@ public interface IActivityRepository {
     void doSaveCreditPayOrder(CreateOrderAggregate createOrderAggregate);
 
     void updateOrder(DeliveryOrderEntity deliveryOrderEntity);
+
+    UnpaidActivityOrderEntity queryUnpaidActivityOrder(SkuRechargeEntity skuRechargeEntity);
+
+    List<SkuProductEntity> querySkuProductEntityListByActivityId(Long activityId);
 }

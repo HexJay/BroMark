@@ -61,4 +61,13 @@
           and out_business_no = #{outBusinessNo}
 
     </select>
+
+    <select id="queryUnpaidActivityOrder" parameterType="com.jay.infrastructure.dao.po.RaffleActivityOrder" resultMap="dataMap">
+        select user_id, order_id, out_business_no, pay_amount
+        from raffle_activity_order
+        where user_id = #{userId}
+          and state = 'wait_pay'
+          and order_time >= now() - interval 1 day
+        limit 1
+    </select>
 </mapper>

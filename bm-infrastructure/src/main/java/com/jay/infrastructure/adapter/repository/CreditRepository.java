@@ -124,4 +124,21 @@ public class CreditRepository implements ICreditRepository {
         }
 
     }
+
+    @Override
+    public CreditAccountEntity queryUserCreditAccount(String userId) {
+        UserCreditAccount userCreditAccountReq = new UserCreditAccount();
+        userCreditAccountReq.setUserId(userId);
+
+        try{
+            dbRouter.doRouter(userId);
+            UserCreditAccount userCreditAccount = userCreditAccountDao.queryUserCreditAccount(userCreditAccountReq);
+            return CreditAccountEntity.builder()
+                    .userId(userCreditAccount.getUserId())
+                    .adjustAmount(userCreditAccount.getAvailableAmount())
+                    .build();
+        }finally {
+            dbRouter.clear();
+        }
+    }
 }

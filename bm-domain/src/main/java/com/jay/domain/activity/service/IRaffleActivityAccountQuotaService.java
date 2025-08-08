@@ -4,6 +4,7 @@ package com.jay.domain.activity.service;
 import com.jay.domain.activity.model.entity.ActivityAccountEntity;
 import com.jay.domain.activity.model.entity.DeliveryOrderEntity;
 import com.jay.domain.activity.model.entity.SkuRechargeEntity;
+import com.jay.domain.activity.model.entity.UnpaidActivityOrderEntity;
 
 /**
  * @author Jay
@@ -20,7 +21,7 @@ public interface IRaffleActivityAccountQuotaService {
      * @param skuRechargeEntity 活动商品充值实体对象
      * @return 活动ID
      */
-    String createOrder(SkuRechargeEntity skuRechargeEntity);
+    UnpaidActivityOrderEntity createOrder(SkuRechargeEntity skuRechargeEntity);
 
     /**
      * 订单出货 - 积分充值

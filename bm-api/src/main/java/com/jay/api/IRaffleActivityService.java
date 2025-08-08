@@ -1,11 +1,11 @@
 package com.jay.api;
 
 
-import com.jay.api.dto.ActivityDrawRequestDTO;
-import com.jay.api.dto.ActivityDrawResponseDTO;
-import com.jay.api.dto.UserActivityAccountRequestDTO;
-import com.jay.api.dto.UserActivityAccountResponseDTO;
+import com.jay.api.dto.*;
 import com.jay.api.response.Response;
+
+import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * @author Jay
@@ -50,5 +50,30 @@ public interface IRaffleActivityService {
      * @return 返回结果「总额度、月额度、日额度」
      */
     Response<UserActivityAccountResponseDTO> queryUserActivityAccount(UserActivityAccountRequestDTO request);
+
+
+    /**
+     * 查询sku商品集合
+     *
+     * @param activityId 活动ID
+     * @return 商品集合
+     */
+    Response<List<SkuProductResponseDTO>> querySkuProductListByActivityId(Long activityId);
+
+    /**
+     * 查询用户积分值
+     *
+     * @param userId 用户ID
+     * @return 可用积分
+     */
+    Response<BigDecimal> queryUserCreditAccount(String userId);
+
+    /**
+     * 积分支付兑换商品
+     *
+     * @param request 请求对象「用户ID、商品ID」
+     * @return 兑换结果
+     */
+    Response<Boolean> creditPayExchangeSku(SkuProductShopCartRequestDTO request);
 
 }

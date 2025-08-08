@@ -2,10 +2,7 @@ package com.jay.domain.activity.service.quota;
 
 
 import com.jay.domain.activity.model.aggregate.CreateOrderAggregate;
-import com.jay.domain.activity.model.entity.ActivityCountEntity;
-import com.jay.domain.activity.model.entity.ActivityEntity;
-import com.jay.domain.activity.model.entity.ActivitySkuEntity;
-import com.jay.domain.activity.model.entity.SkuRechargeEntity;
+import com.jay.domain.activity.model.entity.*;
 import com.jay.domain.activity.repository.IActivityRepository;
 import com.jay.domain.activity.service.IRaffleActivityAccountQuotaService;
 import com.jay.domain.activity.service.quota.policy.ITradePolicy;
@@ -35,7 +32,7 @@ public abstract class AbstractRaffleActivityAccountQuota extends RaffleActivityA
 
 
     @Override
-    public String createOrder(SkuRechargeEntity skuRechargeEntity) {
+    public UnpaidActivityOrderEntity createOrder(SkuRechargeEntity skuRechargeEntity) {
         // 1.参数校验
         String userId = skuRechargeEntity.getUserId();
         Long sku = skuRechargeEntity.getSku();
@@ -43,21 +40,31 @@ public abstract class AbstractRaffleActivityAccountQuota extends RaffleActivityA
         if (userId == null || sku == null || outBusinessNo == null) {
             throw new AppException(ResponseCode.ILLEGAL_PARAMETER.getCode(), ResponseCode.ILLEGAL_PARAMETER.getInfo());
         }
-        // 2.查询基础信息
+        // 2.查询未支付订单
+        UnpaidActivityOrderEntity unpaidActivityOrder = repository.queryUnpaidActivityOrder(skuRechargeEntity);
+        if (null != unpaidActivityOrder) return unpaidActivityOrder;
+
+        // 3.查询基础信息
         ActivitySkuEntity activitySkuEntity = queryActivitySku(sku);
         ActivityEntity activityEntity = queryRaffleActivityByActivityId(activitySkuEntity.getActivityId());
         ActivityCountEntity activityCountEntity = queryRaffleActivityCountByActivityCountId(activitySkuEntity.getActivityCountId());
 
-        // 3.活动动作规则校验
+        // 4.活动动作规则校验
         IActionChain actionChain = defaultActivityChainFactory.openActionChain();
         actionChain.action(activitySkuEntity, activityEntity, activityCountEntity);
-        // 4.构建订单聚合对象
+        // 5.构建订单聚合对象
         CreateOrderAggregate aggregate = buildOrderAggregate(skuRechargeEntity, activitySkuEntity, activityEntity, activityCountEntity);
-        // 5.保存订单
+        // 6.保存订单
         ITradePolicy tradePolicy = tradePolicyGroup.get(skuRechargeEntity.getOrderTradeType().getCode());
         tradePolicy.trade(aggregate);
-        // 6.返回单号
-        return aggregate.getActivityOrderEntity().getOrderId();
+        // 7.返回订单
+        ActivityOrderEntity activityOrderEntity = aggregate.getActivityOrderEntity();
+        return UnpaidActivityOrderEntity.builder()
+                .userId(userId)
+                .orderId(activityOrderEntity.getOrderId())
+                .outBusinessNo(activityOrderEntity.getOutBusinessNo())
+                .payAmount(activityOrderEntity.getPayAmount())
+                .build();
     }
 
     protected abstract CreateOrderAggregate buildOrderAggregate(SkuRechargeEntity skuRechargeEntity, ActivitySkuEntity activitySkuEntity, ActivityEntity activityEntity, ActivityCountEntity activityCountEntity);
