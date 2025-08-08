@@ -7,11 +7,13 @@ import com.jay.domain.activity.model.vo.ActivitySkuStockKeyVO;
 import com.jay.domain.activity.model.vo.OrderStateVO;
 import com.jay.domain.activity.repository.IActivityRepository;
 import com.jay.domain.activity.service.IRaffleActivitySkuStockService;
+import com.jay.domain.activity.service.quota.policy.ITradePolicy;
 import com.jay.domain.activity.service.quota.rule.factory.DefaultActivityChainFactory;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.Map;
 
 /**
  * @author Jay
@@ -21,13 +23,8 @@ import java.util.Date;
 @Service
 public class RaffleActivityAccountQuotaService extends AbstractRaffleActivityAccountQuota implements IRaffleActivitySkuStockService {
 
-    public RaffleActivityAccountQuotaService(IActivityRepository repository, DefaultActivityChainFactory defaultActivityChainFactory) {
-        super(repository, defaultActivityChainFactory);
-    }
-
-    @Override
-    protected void doSaveOrder(CreateOrderAggregate aggregate) {
-        repository.doSaveOrder(aggregate);
+    public RaffleActivityAccountQuotaService(IActivityRepository repository, DefaultActivityChainFactory defaultActivityChainFactory, Map<String, ITradePolicy> tradePolicyGroup) {
+        super(repository, defaultActivityChainFactory, tradePolicyGroup);
     }
 
     @Override
@@ -45,7 +42,7 @@ public class RaffleActivityAccountQuotaService extends AbstractRaffleActivityAcc
         activityOrderEntity.setTotalCount(activityCountEntity.getTotalCount());
         activityOrderEntity.setDayCount(activityCountEntity.getDayCount());
         activityOrderEntity.setMonthCount(activityCountEntity.getMonthCount());
-        activityOrderEntity.setState(OrderStateVO.completed);
+        activityOrderEntity.setState(OrderStateVO.COMPLETED);
         activityOrderEntity.setOutBusinessNo(skuRechargeEntity.getOutBusinessNo());
 
         // 构建聚合对象
@@ -77,6 +74,11 @@ public class RaffleActivityAccountQuotaService extends AbstractRaffleActivityAcc
     @Override
     public void clearActivitySkuStock(Long sku) {
         repository.clearActivitySkuStock(sku);
+    }
+
+    @Override
+    public void updateOrder(DeliveryOrderEntity deliveryOrderEntity) {
+        repository.updateOrder(deliveryOrderEntity);
     }
 
     @Override

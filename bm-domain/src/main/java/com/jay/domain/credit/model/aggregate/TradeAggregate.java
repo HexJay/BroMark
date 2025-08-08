@@ -1,10 +1,14 @@
 package com.jay.domain.credit.model.aggregate;
 
 
+import com.jay.domain.credit.event.CreditAdjustSuccessMessageEvent;
 import com.jay.domain.credit.model.entity.CreditAccountEntity;
 import com.jay.domain.credit.model.entity.CreditOrderEntity;
+import com.jay.domain.credit.model.entity.TaskEntity;
 import com.jay.domain.credit.model.vo.TradeNameVO;
 import com.jay.domain.credit.model.vo.TradeTypeVO;
+import com.jay.types.enums.TaskState;
+import com.jay.types.event.BaseEvent;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -30,6 +34,9 @@ public class TradeAggregate {
     private CreditAccountEntity creditAccountEntity;
     // 积分订单实体
     private CreditOrderEntity creditOrderEntity;
+    // 任务实体 - 补偿 MQ 消息
+    private TaskEntity taskEntity;
+
 
     public static CreditAccountEntity createCreditAccountEntity(String userId, BigDecimal adjustAmount) {
         return CreditAccountEntity.builder().userId(userId).adjustAmount(adjustAmount).build();
@@ -49,5 +56,16 @@ public class TradeAggregate {
                 .outBusinessNo(outBusinessNo)
                 .build();
     }
+
+    public static TaskEntity createTaskEntity(String userId, String topic, String messageId, BaseEvent.EventMessage<CreditAdjustSuccessMessageEvent.CreditAdjustSuccessMessage> message) {
+        TaskEntity taskEntity = new TaskEntity();
+        taskEntity.setUserId(userId);
+        taskEntity.setTopic(topic);
+        taskEntity.setMessageId(messageId);
+        taskEntity.setMessage(message);
+        taskEntity.setState(TaskState.create);
+        return taskEntity;
+    }
+
 
 }

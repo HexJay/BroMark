@@ -21,8 +21,6 @@ public interface IActivityRepository {
 
     ActivityCountEntity queryRaffleActivityCountByActivityCountId(Long activityCountId);
 
-    void doSaveOrder(CreateOrderAggregate aggregate);
-
     void cacheActivitySkuStockCount(String key, Integer stockCount);
 
     boolean subtractionActivitySkuStock(Long sku, String key, Date endDateTime);
@@ -54,4 +52,10 @@ public interface IActivityRepository {
     Integer queryRaffleActivityAccountPartakeCount(Long activityId, String userId);
 
     ActivityAccountEntity queryActivityAccountEntity(Long activityId, String userId);
+
+    void doSaveNoPayOrder(CreateOrderAggregate createOrderAggregate);
+
+    void doSaveCreditPayOrder(CreateOrderAggregate createOrderAggregate);
+
+    void updateOrder(DeliveryOrderEntity deliveryOrderEntity);
 }

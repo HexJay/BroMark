@@ -14,6 +14,7 @@
         <result column="total_count" property="totalCount"/>
         <result column="day_count" property="dayCount"/>
         <result column="month_count" property="monthCount"/>
+        <result column="pay_amount" property="payAmount"/>
         <result column="state" property="state"/>
         <result column="out_business_no" property="outBusinessNo"/>
         <result column="create_time" property="createTime"/>
@@ -21,14 +22,43 @@
     </resultMap>
     <insert id="insert" parameterType="com.jay.infrastructure.dao.po.RaffleActivityOrder">
         insert into raffle_activity_order(user_id, sku, activity_id, activity_name, strategy_id, order_id, order_time,
-                                          total_count, day_count, month_count, state, out_business_no,
+                                          total_count, day_count, month_count, pay_amount, state, out_business_no,
                                           create_time, update_time)
         values (#{userId}, #{sku}, #{activityId}, #{activityName}, #{strategyId}, #{orderId}, #{orderTime},
-                #{totalCount}, #{dayCount}, #{monthCount}, #{state}, #{outBusinessNo}, now(), now())
+                #{totalCount}, #{dayCount}, #{monthCount}, #{payAmount}, #{state}, #{outBusinessNo}, now(), now())
     </insert>
+    <update id="updateOrderCompleted" parameterType="com.jay.infrastructure.dao.po.RaffleActivityOrder">
+        update raffle_activity_order
+        set state       = 'completed',
+            update_time = now()
+        where user_id = #{userId}
+          and out_business_no = #{outBusinessNo}
+          and state = 'wait_pay'
+
+    </update>
+
     <select id="queryRaffleActivityOrdersByUserId" parameterType="String" resultMap="dataMap">
-        select user_id, activity_id, activity_name, strategy_id, order_id, order_time, state
+        select user_id, activity_id, activity_name, strategy_id, order_id, order_time, pay_amount, state
         from raffle_activity_order
         where user_id = #{userId}
+    </select>
+
+    <select id="queryRaffleActivityOrder" parameterType="com.jay.infrastructure.dao.po.RaffleActivityOrder" resultMap="dataMap">
+        select user_id,
+               sku,
+               activity_id,
+               activity_name,
+               strategy_id,
+               order_id,
+               order_time,
+               total_count,
+               day_count,
+               month_count,
+               pay_amount,
+               state
+        from raffle_activity_order
+        where user_id = #{userId}
+          and out_business_no = #{outBusinessNo}
+
     </select>
 </mapper>

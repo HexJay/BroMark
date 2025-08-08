@@ -161,6 +161,7 @@ CREATE TABLE `raffle_activity_sku`
     `activity_count_id`   bigint(12)       NOT NULL COMMENT '活动个人参与次数ID',
     `stock_count`         int(11)          NOT NULL COMMENT '商品库存',
     `stock_count_surplus` int(11)          NOT NULL COMMENT '剩余库存',
+    `product_amount`      decimal(10, 2)   NOT NULL COMMENT '商品金额【积分】',
     `create_time`         datetime         NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `update_time`         datetime         NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     PRIMARY KEY (`id`),
@@ -174,8 +175,8 @@ LOCK TABLES `raffle_activity_sku` WRITE;
     DISABLE KEYS */;
 
 INSERT INTO `raffle_activity_sku` (`id`, `sku`, `activity_id`, `activity_count_id`, `stock_count`,
-                                   `stock_count_surplus`, `create_time`, `update_time`)
-VALUES (1, 9011, 100301, 11101, 100000, 99893, '2024-03-16 11:41:09', '2024-05-30 07:22:10');
+                                   `stock_count_surplus`, `product_amount`, `create_time`, `update_time`)
+VALUES (1, 9011, 100301, 11101, 100000, 99890, 1.68, '2024-03-16 11:41:09', '2024-06-09 09:11:25');
 
 /*!40000 ALTER TABLE `raffle_activity_sku`
     ENABLE KEYS */;
